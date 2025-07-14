@@ -1,9 +1,10 @@
-﻿namespace Fgc.Domain.SharedContext.Entidades
+﻿namespace Fgc.Domain.Compartilhado.Entidades
 {
     public abstract class Entidade(Guid id): IEquatable<Guid>, IEquatable<Entidade>
     {       
-        public Guid Id { get; init; } = id;     
-
+        public Guid Id { get; init; } = id;
+        public DateTime DataCriacao { get; } = DateTime.UtcNow;
+        public DateTime? DataAlteracao { get; set; }
         public bool Equals(Entidade? other)
         {
             if (other is null) return false;
