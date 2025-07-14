@@ -1,4 +1,4 @@
 ﻿namespace Fgc.Domain.Biblioteca.Exceptions.Jogo
 {
-    internal class TituloNuloOuVazioException(string message) : Exception(message);
+    public class TituloNuloOuVazioException(string message) : Exception(message);
 }

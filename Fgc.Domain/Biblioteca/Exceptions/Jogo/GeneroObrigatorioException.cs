@@ -1,4 +1,4 @@
 ﻿namespace Fgc.Domain.Biblioteca.Exceptions.Jogo
 {
-    internal class GeneroObrigatorioException(string message) : Exception(message);
+    public class GeneroObrigatorioException(string message) : Exception(message);
 }

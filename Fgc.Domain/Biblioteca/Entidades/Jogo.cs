@@ -14,7 +14,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
             
         }
 
-        private Jogo(Guid id, string titulo, decimal preco, DateTime dataLancamento, List<Genero> generos, string desenvolvedora) : base(id)
+        private Jogo(Guid id, string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, List<Genero> generos) : base(id)
         {
             Titulo = titulo;
             Preco = preco;
@@ -35,7 +35,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
         #region Fábricas
 
-        public static Jogo Criar(string titulo, decimal preco, DateTime dataLancamento, List<Genero> generos, string desenvolvedora)
+        public static Jogo Criar(string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, List<Genero> generos)
         {
             if (string.IsNullOrWhiteSpace(titulo))
                 throw new TituloNuloOuVazioException(MensagemDeErro.Jogo.TituloNuloOuVazio);
@@ -47,7 +47,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
                 throw new GeneroObrigatorioException(MensagemDeErro.Jogo.GeneroObrigatorio);
             if (string.IsNullOrWhiteSpace(desenvolvedora))
                 throw new DesenvolvedoraNulaOuVaziaException(MensagemDeErro.Jogo.DesenvolvedoraNulaOuVazia);
-            return new Jogo(Guid.NewGuid(), titulo, preco, dataLancamento, generos, desenvolvedora);
+            return new Jogo(Guid.NewGuid(), titulo, preco, dataLancamento, desenvolvedora, generos);
         }
 
         #endregion

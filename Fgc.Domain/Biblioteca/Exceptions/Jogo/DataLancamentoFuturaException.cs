@@ -1,4 +1,4 @@
 ﻿namespace Fgc.Domain.Biblioteca.Exceptions.Jogo
 {
-    internal class DataLancamentoFuturaException(string message) : Exception(message);
+    public class DataLancamentoFuturaException(string message) : Exception(message);
 }
