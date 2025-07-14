@@ -1,10 +1,10 @@
 ﻿namespace Fgc.Domain.Compartilhado.Entidades
 {
-    public abstract class Entidade(Guid id): IEquatable<Guid>, IEquatable<Entidade>
-    {       
+    public abstract class Entidade(Guid id) : IEquatable<Guid>, IEquatable<Entidade>
+    {
         public Guid Id { get; init; } = id;
         public DateTime DataCriacao { get; } = DateTime.UtcNow;
-        public DateTime? DataAlteracao { get; set; }
+        public DateTime? DataAlteracao { get; private set; }
         public bool Equals(Entidade? other)
         {
             if (other is null) return false;
@@ -22,5 +22,8 @@
         public override int GetHashCode() => Id.GetHashCode();
         public static bool operator ==(Entidade? left, Entidade? right) => Equals(left, right);
         public static bool operator !=(Entidade? left, Entidade? right) => !Equals(left, right);
+
+        public void AtualizarDataAlteracao() => DataAlteracao = DateTime.UtcNow;
+        
     }
 }
