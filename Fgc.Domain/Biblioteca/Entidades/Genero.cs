@@ -5,8 +5,7 @@ using Fgc.Domain.Compartilhado.Entidades;
 namespace Fgc.Domain.Biblioteca.Entidades
 {
     public class Genero : Entidade
-    {
-        
+    {        
 
         #region Construtores
         private Genero() : base(Guid.NewGuid())
