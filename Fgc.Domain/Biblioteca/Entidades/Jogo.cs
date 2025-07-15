@@ -6,7 +6,9 @@ namespace Fgc.Domain.Biblioteca.Entidades
 {
     public class Jogo : Entidade
     {
+        #region Campos
         private readonly List<Genero> _generos = [];
+        #endregion
 
         #region Construtores
         private Jogo() : base(Guid.NewGuid())
@@ -27,9 +29,9 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Propriedades
         public string Titulo { get; private set; } = string.Empty;      
         public decimal Preco { get; private set; }
-        public DateTime DataLancamento { get; private set; }
-        public IReadOnlyCollection<Genero> Generos => _generos;
+        public DateTime DataLancamento { get; private set; }        
         public string Desenvolvedora { get; private set; } = string.Empty;
+        public IReadOnlyCollection<Genero> Generos => _generos;
 
         #endregion
 

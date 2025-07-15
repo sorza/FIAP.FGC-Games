@@ -5,7 +5,10 @@ using Fgc.Domain.Compartilhado.Entidades;
 namespace Fgc.Domain.Biblioteca.Entidades
 {
     public class Genero : Entidade
-    {        
+    {
+        #region Campos
+        private readonly List<Jogo> _jogos = [];
+        #endregion
 
         #region Construtores
         private Genero() : base(Guid.NewGuid())
@@ -21,6 +24,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Propriedades
 
         public string Nome { get; private set; } = string.Empty;
+        public IReadOnlyCollection<Jogo> Jogos => _jogos;
 
         #endregion
 
