@@ -1,4 +1,4 @@
-﻿using Fgc.Application.Compartilhado.Repositorios;
+﻿using Fgc.Application.Compartilhado.Abstracoes.Repositorios;
 using Fgc.Domain.Biblioteca.Entidades;
 
 namespace Fgc.Application.Biblioteca.Repositorios

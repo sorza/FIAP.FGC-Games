@@ -1,6 +1,6 @@
 ﻿using Fgc.Domain.Compartilhado.Entidades;
 
-namespace Fgc.Application.Compartilhado.Repositorios
+namespace Fgc.Application.Compartilhado.Abstracoes.Repositorios
 {
     public interface IRepository<T> where T : Entidade
     {
