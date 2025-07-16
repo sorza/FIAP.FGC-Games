@@ -1,4 +1,4 @@
 ﻿namespace Fgc.Application.Compartilhado.CasosDeUso.Abstracoes
 {
-    public interface IResponse;
+    public interface ICommandResponse;
 }

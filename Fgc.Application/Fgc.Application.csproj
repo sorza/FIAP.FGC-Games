@@ -5,9 +5,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
 	
   <ItemGroup>
     <ProjectReference Include="..\Fgc.Domain\Fgc.Domain.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Biblioteca\CasosDeUso\Genero\Criar\" />
   </ItemGroup>
 
 </Project>
