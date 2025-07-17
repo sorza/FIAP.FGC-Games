@@ -1,22 +1,23 @@
-using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
+using Fgc.Api.Endpoints;
 using Fgc.Application.Compartilhado;
 using Fgc.Infrastructure.Compartilhado;
 using Fgc.Infrastructure.Compartilhado.Data;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
-
 
 var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(cs));
 
 var app = builder.Build();
 
+app.MapEndpoints();
+
+#region Genero - Endpoints
+/*
 app.MapPost("/v1/generos", async (
     ISender sender,
     Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command cmd,
@@ -104,6 +105,7 @@ app.MapGet("/v1/generos", async (
         ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
         : TypedResults.Ok(result.Value);
     return response;
-});
+});*/
+#endregion
 
 app.Run();
