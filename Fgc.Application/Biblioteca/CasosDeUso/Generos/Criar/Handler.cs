@@ -13,7 +13,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar
             var generoExistente = await generoRepository.VerificaSeGeneroExisteAsync(request.nomeGenero, cancellationToken);
 
             if(generoExistente )
-                return Result.Failure<Response>(new Error("400","Este gênero já existe."));
+                return Result.Failure<Response>(new Error("400","Este gênero já está cadastrado."));
 
             var genero = Genero.Criar(request.nomeGenero);
 

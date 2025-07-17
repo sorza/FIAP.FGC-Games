@@ -1,4 +1,5 @@
-﻿using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
+﻿using Fgc.Api.Endpoints.Abstracoes;
+using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
 using MediatR;
 
 namespace Fgc.Api.Endpoints.Generos

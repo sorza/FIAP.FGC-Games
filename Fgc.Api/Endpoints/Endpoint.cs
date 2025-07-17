@@ -1,4 +1,6 @@
-﻿using Fgc.Api.Endpoints.Generos;
+﻿using Fgc.Api.Endpoints.Abstracoes;
+using Fgc.Api.Endpoints.Generos;
+using Fgc.Api.Endpoints.Jogos;
 
 namespace Fgc.Api.Endpoints
 {
@@ -20,6 +22,10 @@ namespace Fgc.Api.Endpoints
                 .MapEndpoint<ListarGenerosEndpoint>()
                 .MapEndpoint<AtualizarGeneroEndpoint>()
                 .MapEndpoint<RemoverGeneroEndpoint>();
+
+            endpoints.MapGroup("v1/jogos")
+                .WithTags("Jogos")
+                .MapEndpoint<CriarJogoEndpoint>();
 
         }
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
