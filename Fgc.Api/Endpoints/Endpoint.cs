@@ -25,7 +25,8 @@ namespace Fgc.Api.Endpoints
 
             endpoints.MapGroup("v1/jogos")
                 .WithTags("Jogos")
-                .MapEndpoint<CriarJogoEndpoint>();
+                .MapEndpoint<CriarJogoEndpoint>()
+                .MapEndpoint<BuscarJogoEndpoint>();
 
         }
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
