@@ -11,23 +11,23 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
         private readonly AppDbContext _context;
         public JogoRepository(AppDbContext context) : base(context)
         {
-           _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<bool> VerificaSeJogoExisteAsync(Jogo jogo, CancellationToken cancellationToken = default)
                => await _context.Jogos.AsNoTracking().AnyAsync(x => x == jogo);
 
         public override async Task Cadastrar(Jogo jogo, CancellationToken cancellationToken = default)
-        {            
+        {
             foreach (var genero in jogo.Generos.ToList())
-            {               
+            {
                 var generoStub = Genero.Criar(genero.Id, genero.Nome);
-               
+
                 _context.Entry(generoStub).State = EntityState.Unchanged;
-               
+
                 jogo.RemoverGenero(genero);
                 jogo.AdicionarGenero(generoStub);
-            }           
+            }
             await base.Cadastrar(jogo, cancellationToken);
         }
 
@@ -37,6 +37,14 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
                 .Include(j => j.Generos)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(j => j.Id == id, cancellationToken);
+        }
+
+        public override async Task<IList<Jogo>> ObterTodos(CancellationToken cancellationToken = default)
+        {
+            return await _context.Jogos
+                .Include(j => j.Generos)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
     }
 }
