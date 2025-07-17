@@ -68,4 +68,19 @@ app.MapGet("/v1/generos/{id}", async (
     return response;
 });
 
+app.MapPut("/v1/generos", async (
+    ISender sender,
+    Fgc.Application.Biblioteca.CasosDeUso.Generos.Atualizar.Command cmd,
+    CancellationToken cancellationToken) =>
+{
+    var result = await sender.Send(cmd, cancellationToken);
+
+    IResult response = result.IsFailure
+        ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
+        : TypedResults.Created($"/v1/generos/{result.Value.Id}", result.Value);
+
+    return response;
+
+});
+
 app.Run();

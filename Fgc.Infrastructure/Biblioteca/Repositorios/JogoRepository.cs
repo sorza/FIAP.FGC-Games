@@ -4,7 +4,7 @@ using Fgc.Infrastructure.Compartilhado.Repositorios;
 
 namespace Fgc.Infrastructure.Biblioteca.Repositorios
 {
-    public class JogoRepository : EFRepository<Jogo>
+    public class JogoRepository : GenericoRepository<Jogo>
     {
         public JogoRepository(AppDbContext context) : base(context)
         {

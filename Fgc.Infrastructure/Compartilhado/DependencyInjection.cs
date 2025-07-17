@@ -1,5 +1,5 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
-using Fgc.Infrastructure.Compartilhado.Repositorios;
+using Fgc.Infrastructure.Biblioteca.Repositorios;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fgc.Infrastructure.Compartilhado

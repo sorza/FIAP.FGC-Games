@@ -48,5 +48,15 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Implicit Operators
         public static implicit operator string(Genero genero) => genero.Nome;
         #endregion
+
+        #region Métodos
+        public void Atualizar(string nome)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                throw new GeneroNuloOuVazioException(MensagemDeErro.Genero.NuloOuVazio);
+            Nome = nome;
+            AtualizarDataAlteracao();
+        }
+        #endregion
     }
 }

@@ -18,9 +18,8 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar
             var genero = Genero.Criar(request.nomeGenero);
 
             await generoRepository.Cadastrar(genero);
-
-            var response = new Response(genero.Id, genero.Nome);
-            return Result.Success(response);
+            
+            return Result.Success(new Response(genero.Id, genero.Nome));
         }
     }
 }

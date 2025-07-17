@@ -5,14 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fgc.Infrastructure.Compartilhado.Repositorios
 {
-    public class EFRepository<T>(AppDbContext context) : IRepository<T> where T : Entidade
+    public class GenericoRepository<T>(AppDbContext context) : IRepository<T> where T : Entidade
     {
         protected readonly DbSet<T> _dbSet = context.Set<T>();
 
         public Task Alterar(T entidade, CancellationToken cancellationToken = default)
         {        
-            entidade.AtualizarDataAlteracao();
-
             _dbSet.Update(entidade);
             return context.SaveChangesAsync(cancellationToken);
         }
