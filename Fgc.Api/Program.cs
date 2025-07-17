@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Fgc.Application.Compartilhado;
 using Fgc.Infrastructure.Compartilhado;
 using Fgc.Infrastructure.Compartilhado.Data;
+using Microsoft.AspNetCore.Mvc;
+using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,9 +34,10 @@ app.UseSwaggerUI();
 
 app.MapPost("/v1/generos", async (
     ISender sender,
-    Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command cmd) =>
+    Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command cmd,
+    CancellationToken cancellationToken) =>
 {
-    var result = await sender.Send(cmd);
+    var result = await sender.Send(cmd, cancellationToken);
 
     IResult response = result.IsFailure
         ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
@@ -42,6 +45,27 @@ app.MapPost("/v1/generos", async (
 
     return response;
 
+});
+
+app.MapGet("/v1/generos/{id}", async (
+    ISender sender,
+    string id,
+    CancellationToken cancellationToken) =>
+{
+    if (!Guid.TryParse(id, out var guid))
+        return TypedResults.BadRequest(new
+        {
+            Code = "404",
+            Message = $"'{id}' não é um id válido."
+        });
+
+    var result = await sender.Send(new Query(guid), cancellationToken);
+
+    IResult response = result.IsFailure
+     ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
+     : TypedResults.Ok(result.Value);  
+    
+    return response;
 });
 
 app.Run();

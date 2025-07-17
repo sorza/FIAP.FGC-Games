@@ -9,42 +9,33 @@ namespace Fgc.Infrastructure.Compartilhado.Repositorios
     {
         protected readonly DbSet<T> _dbSet = context.Set<T>();
 
-        public Task Alterar(T entidade)
-        {
-            if (entidade is null) throw new ArgumentNullException(nameof(entidade));
-            
+        public Task Alterar(T entidade, CancellationToken cancellationToken = default)
+        {        
             entidade.AtualizarDataAlteracao();
 
             _dbSet.Update(entidade);
-            return context.SaveChangesAsync();
+            return context.SaveChangesAsync(cancellationToken);
         }
 
-        public Task Cadastrar(T entidade)
-        {
-            if (entidade is null) throw new ArgumentNullException(nameof(entidade));
-            
+        public Task Cadastrar(T entidade, CancellationToken cancellationToken = default)
+        {            
             _dbSet.Add(entidade);
-            return context.SaveChangesAsync();
+            return context.SaveChangesAsync(cancellationToken);
         }
 
-        public Task Deletar(Guid id)
+        public Task Deletar(Guid id, CancellationToken cancellationToken = default)
         {
-            var entidade = ObterPorId(id);
+            var entidade = ObterPorId(id).Result;
 
-            _dbSet.Remove(entidade);
-            return context.SaveChangesAsync();
-
+            _dbSet.Remove(entidade!);
+            return context.SaveChangesAsync(cancellationToken);
         }
 
-        public T ObterPorId(Guid id)
-        {
-            if (id == Guid.Empty) throw new ArgumentException("O ID não pode ser vazio.", nameof(id));
-            var entidade = _dbSet.Find(id);
-            if (entidade is null) throw new KeyNotFoundException($"Entidade com ID {id} não encontrada.");
-            return entidade;
-        }
+        public async Task<T?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
+            => await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
-        public IList<T> ObterTodos() => _dbSet.ToList();
+        public Task<IList<T>> ObterTodos(CancellationToken cancellationToken = default)
+            => _dbSet.ToListAsync(cancellationToken).ContinueWith(task => (IList<T>)task.Result, cancellationToken);        
         
     }
 }
