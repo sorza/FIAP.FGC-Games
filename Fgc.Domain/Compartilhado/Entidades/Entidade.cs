@@ -1,6 +1,6 @@
 ﻿namespace Fgc.Domain.Compartilhado.Entidades
 {
-    public abstract class Entidade(Guid id) : IEquatable<Guid>, IEquatable<Entidade>
+    public abstract class Entidade(Guid id) : IEquatable<Entidade>
     {
         public Guid Id { get; init; } = id;
         public DateTime DataCriacao { get; } = DateTime.UtcNow;
@@ -10,7 +10,6 @@
             if (other is null) return false;
             return ReferenceEquals(this, other) || Id.Equals(other.Id);
         }
-        public bool Equals(Guid other) => Id == other;
 
         public override bool Equals(object? obj)
         {

@@ -14,19 +14,6 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             bool saoIguais = entidade1 == entidade2;
             // Assert
             Assert.False(saoIguais);
-        }
-
-        [Fact]
-        public void CompararIdsIguais_DeveRetornarVerdadeiro()
-        {
-            // Arrange            
-            var entidade1 = Genero.Criar("Ação");
-            var id = entidade1.Id;
-
-            // Act
-            bool saoIguais = entidade1.Equals(id);
-            // Assert
-            Assert.True(saoIguais);
-        }
+        }       
     }
 }
