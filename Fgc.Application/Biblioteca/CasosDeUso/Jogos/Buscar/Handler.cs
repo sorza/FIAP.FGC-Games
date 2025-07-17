@@ -13,7 +13,14 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar
             if (jogo is null)
                 return Result.Failure<Response>(new Error("404", $"Jogo não encontrado."));
 
-            return Result.Success(new Response(jogo.Id, jogo.Titulo, jogo.Preco, jogo.DataLancamento, jogo.Desenvolvedora, jogo.Generos.ToList()));
+            // Retornar resposta com os dados do jogo
+            return Result.Success(new Response(
+                jogo.Id, 
+                jogo.Titulo, 
+                jogo.Preco, 
+                jogo.DataLancamento, 
+                jogo.Desenvolvedora, 
+                jogo.Generos.Select(g => new Generos.Buscar.Response(g.Id, g.Nome)).ToList()));
 
         }
     }

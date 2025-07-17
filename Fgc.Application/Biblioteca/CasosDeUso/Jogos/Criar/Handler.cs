@@ -11,16 +11,15 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
         {           
             if (string.IsNullOrWhiteSpace(request.titulo) || 
                 request.preco <= 0 ||  
-                string.IsNullOrWhiteSpace(request.desenvolvedora) /*||  
-                request.generos == null || !request.generos.Any()*/)            
-                return Result.Failure<Response>(new Error("400", "Dados inválidos para criação do jogo."));   
+                string.IsNullOrWhiteSpace(request.desenvolvedora))            
+                return Result.Failure<Response>(new Error("400", "Dados inválidos para criação do jogo."));
                        
             var jogo = Jogo.Criar(
-                request.titulo,
-                request.preco,
-                request.dataLancamento,
-                request.desenvolvedora,
-                request.generos);
+                request.titulo, 
+                request.preco, 
+                request.dataLancamento, 
+                request.desenvolvedora, 
+                request.generos.Select(g => Genero.Criar(g.Id, g.Genero)).ToList());
 
             var jogoExistente = await jogoRepository.VerificaSeJogoExisteAsync(jogo);
 
@@ -29,7 +28,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
            
             await jogoRepository.Cadastrar(jogo, cancellationToken);
             
-            return Result.Success(new Response(jogo.Id, jogo.Titulo, jogo.Preco, jogo.DataLancamento, jogo.Desenvolvedora, jogo.Generos.ToList()));
+            return Result.Success(new Response(jogo.Id, jogo.Titulo, jogo.Preco, jogo.DataLancamento, jogo.Desenvolvedora, request.generos));
         }
     }
 }

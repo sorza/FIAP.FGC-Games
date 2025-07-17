@@ -16,5 +16,20 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
 
         public async Task<bool> VerificaSeJogoExisteAsync(Jogo jogo, CancellationToken cancellationToken = default)
                => await _context.Jogos.AsNoTracking().AnyAsync(x => x == jogo);
+
+        public override async Task Cadastrar(Jogo jogo, CancellationToken cancellationToken = default)
+        {            
+            foreach (var genero in jogo.Generos.ToList())
+            {               
+                var generoStub = Genero.Criar(genero.Id, genero.Nome);
+               
+                _context.Entry(generoStub).State = EntityState.Unchanged;
+               
+                jogo.RemoverGenero(genero);
+                jogo.AdicionarGenero(generoStub);
+            }           
+            await base.Cadastrar(jogo, cancellationToken);
+        }
+
     }
 }

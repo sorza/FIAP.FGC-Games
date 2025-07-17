@@ -38,6 +38,13 @@ namespace Fgc.Domain.Biblioteca.Entidades
             return new Genero(Guid.NewGuid(), nome);
         }
 
+        public static Genero Criar(Guid id, string nome)
+        {
+            if (string.IsNullOrWhiteSpace(nome))
+                throw new GeneroNuloOuVazioException(MensagemDeErro.Genero.NuloOuVazio);
+            return new Genero(id, nome);
+        }
+
         #endregion
 
         #region Sobrecargas        

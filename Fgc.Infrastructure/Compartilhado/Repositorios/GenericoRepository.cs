@@ -15,7 +15,7 @@ namespace Fgc.Infrastructure.Compartilhado.Repositorios
             return context.SaveChangesAsync(cancellationToken);
         }
 
-        public Task Cadastrar(T entidade, CancellationToken cancellationToken = default)
+        public virtual Task Cadastrar(T entidade, CancellationToken cancellationToken = default)
         {            
             _dbSet.Add(entidade);
             return context.SaveChangesAsync(cancellationToken);
