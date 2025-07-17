@@ -29,10 +29,10 @@ namespace Fgc.Infrastructure.Compartilhado.Repositorios
             return context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<T?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<T?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
             => await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
-        public Task<IList<T>> ObterTodos(CancellationToken cancellationToken = default)
+        public virtual Task<IList<T>> ObterTodos(CancellationToken cancellationToken = default)
             => _dbSet.ToListAsync(cancellationToken).ContinueWith(task => (IList<T>)task.Result, cancellationToken);        
         
     }
