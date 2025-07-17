@@ -13,7 +13,7 @@ namespace Fgc.Infrastructure.Compartilhado.Repositorios
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<bool> VerificaSeGeneroExisteAsync(string genero)
+        public async Task<bool> VerificaSeGeneroExisteAsync(string genero, CancellationToken cancellationToken = default)
            => await _context.Generos.AsNoTracking().AnyAsync(a => a.Nome == genero);
 
     }
