@@ -45,6 +45,8 @@ namespace Fgc.Domain.Biblioteca.Entidades
                 throw new PrecoNegativoException(MensagemDeErro.Jogo.PrecoNegativo);
             if (dataLancamento > DateTime.UtcNow)
                 throw new DataLancamentoFuturaException(MensagemDeErro.Jogo.DataLancamentoFutura);
+            if (generos == null || generos.Count == 0)
+                throw new GeneroObrigatorioException(MensagemDeErro.Jogo.GeneroObrigatorio);
             if (string.IsNullOrWhiteSpace(desenvolvedora))
                 throw new DesenvolvedoraNulaOuVaziaException(MensagemDeErro.Jogo.DesenvolvedoraNulaOuVazia);
             return new Jogo(Guid.NewGuid(), titulo, preco, dataLancamento, desenvolvedora, generos);
