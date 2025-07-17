@@ -94,4 +94,16 @@ app.MapDelete("/v1/generos/{id}", async (
     return response;
 });
 
+app.MapGet("/v1/generos", async (
+    ISender sender,
+    CancellationToken cancellationToken) =>
+{
+
+    var result = await sender.Send(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Listar.Query(), cancellationToken);
+    IResult response = result.IsFailure
+        ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
+        : TypedResults.Ok(result.Value);
+    return response;
+});
+
 app.Run();
