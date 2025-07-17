@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+  </ItemGroup>
+
   <ItemGroup>	
     <ProjectReference Include="..\Fgc.Application\Fgc.Application.csproj" />	
     <ProjectReference Include="..\Fgc.Infrastructure\Fgc.Infrastructure.csproj" />
