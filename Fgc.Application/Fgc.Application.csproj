@@ -13,9 +13,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Fgc.Domain\Fgc.Domain.csproj" />
   </ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="Biblioteca\CasosDeUso\Generos\Remover\" />
-  </ItemGroup>
 
 </Project>
