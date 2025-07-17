@@ -73,6 +73,13 @@ app.MapPut("/v1/generos", async (
     Fgc.Application.Biblioteca.CasosDeUso.Generos.Atualizar.Command cmd,
     CancellationToken cancellationToken) =>
 {
+    if (!Guid.TryParse(cmd.id, out var guid))
+        return TypedResults.BadRequest(new
+        {
+            Code = "404",
+            Message = $"'{cmd.id}' não é um id válido."
+        });
+
     var result = await sender.Send(cmd, cancellationToken);
 
     IResult response = result.IsFailure

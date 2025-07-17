@@ -13,7 +13,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Atualizar
             if(!genero)
                 return Result.Failure<Response>(new Error("400", "Este gênero não existe."));
 
-            var generoExistente = await generoRepository.ObterPorId(request.id, cancellationToken);
+            var generoExistente = await generoRepository.ObterPorId(Guid.Parse(request.id), cancellationToken);
             generoExistente!.Atualizar(request.nome);
 
             await generoRepository.Alterar(generoExistente);
