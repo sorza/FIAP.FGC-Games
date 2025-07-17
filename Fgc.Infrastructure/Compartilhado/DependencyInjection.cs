@@ -9,6 +9,7 @@ namespace Fgc.Infrastructure.Compartilhado
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddScoped<IGeneroRepository, GeneroRepository>();
+            services.AddScoped<IJogoRepository, JogoRepository>();
 
             return services;
         }

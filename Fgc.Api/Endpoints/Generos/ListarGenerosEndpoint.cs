@@ -10,7 +10,6 @@ namespace Fgc.Api.Endpoints.Generos
             .WithName("Generos: Listar")
             .WithSummary("Lista todos os generos")
             .WithDescription("Lista todos os generos");
-
         private static async Task<IResult> HandleAsync(
             ISender sender,
             CancellationToken cancellationToken)

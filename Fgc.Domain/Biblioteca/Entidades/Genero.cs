@@ -43,6 +43,13 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Sobrecargas        
         public override string ToString() => Nome;
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Genero genero)
+                return false;
+            return Nome == genero.Nome;
+        }
+
         #endregion
 
         #region Implicit Operators

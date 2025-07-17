@@ -10,7 +10,6 @@ namespace Fgc.Api.Endpoints.Generos
             .WithName("Generos: Remover")
             .WithSummary("Remove um genero")
             .WithDescription("Remove um genero");
-
         private static async Task<IResult> HandleAsync(
             ISender sender,
             string id,

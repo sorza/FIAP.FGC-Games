@@ -9,9 +9,7 @@ namespace Fgc.Api.Endpoints.Generos
             => app.MapGet("/{id}", HandleAsync)
                 .WithName("Generos: Buscar")
                 .WithSummary("Busca um genero por id")
-                .WithDescription("Busca um genero por id");
-        
-
+                .WithDescription("Busca um genero por id");      
         private static async Task<IResult> HandleAsync(
             ISender sender,
             string id,

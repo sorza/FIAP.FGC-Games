@@ -54,6 +54,19 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
         #endregion
 
+        #region Overrides
+
+        public override bool Equals(object? obj)
+        {
+            if( obj is not Jogo jogo)
+                return false;
+            return Id == jogo.Id && Titulo == jogo.Titulo && Preco == jogo.Preco &&
+                   DataLancamento == jogo.DataLancamento && Desenvolvedora == jogo.Desenvolvedora &&
+                   _generos.SequenceEqual(jogo._generos);
+        }
+
+        #endregion
+
         #region Métodos
         public void AdicionarGenero(Genero genero)
         {

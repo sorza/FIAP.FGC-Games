@@ -11,7 +11,6 @@ namespace Fgc.Api.Endpoints.Generos
             .WithSummary("Cria um novo genero")
             .WithDescription("Cria um novo genero")
             .Produces<Response>();
-
         private static async Task<IResult> HandleAsync(
             ISender sender,
             Command cmd,
