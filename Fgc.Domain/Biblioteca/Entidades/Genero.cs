@@ -8,6 +8,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
     {
         #region Campos
         private readonly List<Jogo> _jogos = [];
+                
         #endregion
 
         #region Construtores

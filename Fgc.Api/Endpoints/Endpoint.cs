@@ -8,12 +8,7 @@ namespace Fgc.Api.Endpoints
     {
         public static void MapEndpoints(this WebApplication app)
         {
-            var endpoints = app.MapGroup("");
-
-            endpoints.MapGet("/", () => "Fgc.Api está no ar!")
-                .WithName("Página Inicial")
-                .WithSummary("Home Endpoint")
-                .WithDescription("Este é o endpoint da Home da Fgc.Api");
+            var endpoints = app.MapGroup("");                      
 
             endpoints.MapGroup("v1/generos")
                 .WithTags("Gêneros")

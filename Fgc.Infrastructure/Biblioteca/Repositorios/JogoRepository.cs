@@ -24,7 +24,6 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
                                x.Desenvolvedora == jogo.Desenvolvedora, cancellationToken);
         }
 
-
         public override async Task Cadastrar(Jogo jogo, CancellationToken cancellationToken = default)
         {
             foreach (var genero in jogo.Generos.ToList())
