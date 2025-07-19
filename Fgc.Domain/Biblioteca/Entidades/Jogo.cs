@@ -49,6 +49,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
                 throw new GeneroObrigatorioException(MensagemDeErro.Jogo.GeneroObrigatorio);
             if (string.IsNullOrWhiteSpace(desenvolvedora))
                 throw new DesenvolvedoraNulaOuVaziaException(MensagemDeErro.Jogo.DesenvolvedoraNulaOuVazia);
+
             return new Jogo(Guid.NewGuid(), titulo, preco, dataLancamento, desenvolvedora, generos);
         }
 
@@ -61,9 +62,11 @@ namespace Fgc.Domain.Biblioteca.Entidades
             if( obj is not Jogo jogo)
                 return false;
             return Id == jogo.Id && Titulo == jogo.Titulo && Preco == jogo.Preco &&
-                   DataLancamento == jogo.DataLancamento && Desenvolvedora == jogo.Desenvolvedora &&
+                   Desenvolvedora == jogo.Desenvolvedora &&
                    _generos.SequenceEqual(jogo._generos);
         }
+
+        public override int GetHashCode() => HashCode.Combine(Id, Titulo, Preco, Desenvolvedora, _generos);
 
         #endregion
 

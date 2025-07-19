@@ -127,5 +127,39 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             Assert.Equal(2, jogo.Generos.Count);
             Assert.Contains(genero2, jogo.Generos);
         }
+
+        [Fact]
+        public void RemoverGenero_JogoComGeneroExistente_DeveRemover()
+        {
+            // Arrange
+            var genero = Genero.Criar("Aventura");
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+            // Act
+            jogo.RemoverGenero(genero);
+            // Assert
+            Assert.Empty(jogo.Generos);
+        }          
+
+        [Fact]
+        public void Atualizar_Jogo_DeveAtualizarPropriedades()
+        {
+            // Arrange
+            var genero = Genero.Criar("Aventura");
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+
+            var novoTitulo = "The Legend of Zelda: Tears of the Kingdom";
+            var novoPreco = 60m;
+            var novaDataLancamento = new DateTime(2023, 5, 12);
+            var novaDesenvolvedora = "Nintendo EPD";
+            var novosGeneros = new List<Genero> { Genero.Criar("Aventura"), Genero.Criar("RPG") };
+            // Act
+            jogo.Atualizar(novoTitulo, novoPreco, novaDataLancamento, novaDesenvolvedora, novosGeneros);
+            // Assert
+            Assert.Equal(novoTitulo, jogo.Titulo);
+            Assert.Equal(novoPreco, jogo.Preco);
+            Assert.Equal(novaDataLancamento, jogo.DataLancamento);
+            Assert.Equal(novaDesenvolvedora, jogo.Desenvolvedora);
+            Assert.Equal(novosGeneros.Count, jogo.Generos.Count);
+        }        
     }
 }

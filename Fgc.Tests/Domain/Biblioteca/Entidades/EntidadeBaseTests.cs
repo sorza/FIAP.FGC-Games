@@ -14,6 +14,17 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             bool saoIguais = entidade1 == entidade2;
             // Assert
             Assert.True(saoIguais);
-        }       
+        }
+
+        [Fact]
+        public void DataCriacao_Entidades_AoCriarNaoDeveSerNuloOuVazio()
+        {
+            // Arrange
+            var genero = Genero.Criar("Aventura");
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+            // Act && Assert            
+            Assert.NotEqual(DateTime.MinValue, jogo.DataCriacao);
+            Assert.NotEqual(DateTime.MinValue, genero.DataCriacao);
+        }
     }
 }
