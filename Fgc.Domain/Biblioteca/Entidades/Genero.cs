@@ -8,7 +8,10 @@ namespace Fgc.Domain.Biblioteca.Entidades
     {
         #region Campos
         private readonly List<Jogo> _jogos = [];
-                
+
+        public const int NomeMaxLength = 100;
+        public const int NomeMinLength = 2;
+
         #endregion
 
         #region Construtores
@@ -36,15 +39,16 @@ namespace Fgc.Domain.Biblioteca.Entidades
             if (string.IsNullOrWhiteSpace(nome))
                 throw new GeneroNuloOuVazioException(MensagemDeErro.Genero.NuloOuVazio);
 
+            if (nome.Length > NomeMaxLength)
+                throw new GeneroNomeMuitoGrandeException(MensagemDeErro.Genero.NomeMuitoGrande);
+
+            if (nome.Length < NomeMinLength)
+                throw new GeneroNomeMuitoPequenoException(MensagemDeErro.Genero.NomeMuitoPequeno);
+
             return new Genero(Guid.NewGuid(), nome);
         }
 
-        public static Genero Criar(Guid id, string nome)
-        {
-            if (string.IsNullOrWhiteSpace(nome))
-                throw new GeneroNuloOuVazioException(MensagemDeErro.Genero.NuloOuVazio);
-            return new Genero(id, nome);
-        }
+        public static Genero Criar(Guid id, string nome) => new Genero(id, nome);        
 
         #endregion
 

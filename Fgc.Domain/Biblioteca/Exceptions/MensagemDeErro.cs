@@ -12,6 +12,8 @@
         public class GeneroErrorMessages
         {           
             public string NuloOuVazio { get; } = "O gênero não pode ser nulo ou vazio";
+            public string NomeMuitoGrande { get; } = "O nome do gênero não pode ter mais de 100 caracteres";
+            public string NomeMuitoPequeno { get; } = "O nome do gênero deve ter pelo menos 2 caracteres";
         }
 
         public class JogoErrorMessages

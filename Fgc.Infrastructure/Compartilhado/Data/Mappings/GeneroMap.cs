@@ -24,7 +24,8 @@ namespace Fgc.Infrastructure.Compartilhado.Data.Mappings
                 .IsRequired(false);
 
             builder.Property(x => x.Nome)
-                .HasColumnType("nvarchar(100)")
+                .HasColumnType("nvarchar")
+                .HasMaxLength(Genero.NomeMaxLength)
                 .IsRequired();
         }
     }
