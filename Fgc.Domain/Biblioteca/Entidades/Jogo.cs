@@ -74,14 +74,27 @@ namespace Fgc.Domain.Biblioteca.Entidades
             _generos.Add(genero);
             AtualizarDataAlteracao();
         }
-
         public void RemoverGenero(Genero genero)
         {
             if (!_generos.Contains(genero)) return;
             _generos.Remove(genero);
             AtualizarDataAlteracao();
         }
-
+        public void Atualizar(string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, List<Genero> generos)
+        {            
+            Titulo = titulo;
+            Preco = preco;
+            DataLancamento = dataLancamento;
+            _generos.Clear();
+            _generos.AddRange(generos);
+            Desenvolvedora = desenvolvedora;
+            AtualizarDataAlteracao();
+        }
+        public void LimparGeneros()
+        {
+            _generos.Clear();
+            AtualizarDataAlteracao();
+        }
         #endregion
 
     }

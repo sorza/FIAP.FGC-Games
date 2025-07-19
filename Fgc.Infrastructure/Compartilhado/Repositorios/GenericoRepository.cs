@@ -9,7 +9,7 @@ namespace Fgc.Infrastructure.Compartilhado.Repositorios
     {
         protected readonly DbSet<T> _dbSet = context.Set<T>();
 
-        public Task Alterar(T entidade, CancellationToken cancellationToken = default)
+        public virtual Task Alterar(T entidade, CancellationToken cancellationToken = default)
         {        
             _dbSet.Update(entidade);
             return context.SaveChangesAsync(cancellationToken);

@@ -23,6 +23,25 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
                                x.Desenvolvedora == jogo.Desenvolvedora, cancellationToken);
         }
 
+        public override async Task Alterar( Jogo jogo, CancellationToken cancellationToken = default)
+        {  
+            var existente = await _context.Jogos
+                .Include(j => j.Generos)
+                .FirstOrDefaultAsync(j => j.Id == jogo.Id, cancellationToken);
+           
+            _context.Entry(existente!).CurrentValues.SetValues(jogo);
+           
+            existente!.LimparGeneros();
+
+            foreach (var genero in jogo.Generos)
+            {               
+                var g = await _context.Generos.FindAsync([genero.Id], cancellationToken);                    
+                existente!.AdicionarGenero(g!);
+            }
+            
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         public override async Task Cadastrar(Jogo jogo, CancellationToken cancellationToken = default)
         {
             foreach (var genero in jogo.Generos.ToList())
