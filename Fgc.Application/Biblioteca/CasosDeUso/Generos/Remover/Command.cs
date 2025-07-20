@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Remover
 {
-    public sealed record Command(Guid id) : ICommand<Response>;
+    public sealed record Command(string Id) : ICommand<Response>;
 }

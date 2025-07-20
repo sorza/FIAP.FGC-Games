@@ -8,14 +8,14 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Remover
     {
         public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var generoExistente = await generoRepository.VerificaSeGeneroExisteAsync(request.id, cancellationToken);
+            var generoExistente = await generoRepository.VerificaSeGeneroExisteAsync(request.Id, cancellationToken);
 
             if(!generoExistente)
                 return Result.Failure<Response>(new Error("400","Este gênero não existe."));
 
-            await generoRepository.Deletar(request.id, cancellationToken);
+            await generoRepository.Deletar(Guid.Parse(request.Id), cancellationToken);
             
-            return Result.Success(new Response(request.id));
+            return Result.Success(new Response(Guid.Parse(request.Id)));
         }
     }
 }

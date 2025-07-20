@@ -1,5 +1,6 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
+using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;
 
 namespace Fgc.Api.Endpoints.Generos
@@ -19,17 +20,18 @@ namespace Fgc.Api.Endpoints.Generos
             string id,
             CancellationToken cancellationToken)
         {
-            if (!Guid.TryParse(id, out var guid))
-                return TypedResults.BadRequest(new
-                {
-                    Code = "404",
-                    Message = $"'{id}' não é um id válido."
-                });
-            var result = await sender.Send(new Query(guid), cancellationToken);
-            IResult response = result.IsFailure
-                ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
-                : TypedResults.Ok(result.Value);
-            return response;
+            try
+            {
+                var result = await sender.Send(new Query(id), cancellationToken);
+                IResult response = result.IsFailure
+                    ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
+                    : TypedResults.Ok(result.Value);
+                return response;
+            }
+            catch(ValidationException ex)
+            {
+                return TypedResults.BadRequest(new { ex.Message, ex.Errors });
+            }
         }
     }
 }

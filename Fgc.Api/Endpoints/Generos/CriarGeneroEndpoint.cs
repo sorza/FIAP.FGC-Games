@@ -1,7 +1,7 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar;
+using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace Fgc.Api.Endpoints.Generos
 {
@@ -31,7 +31,7 @@ namespace Fgc.Api.Endpoints.Generos
 
                 return response;
             }
-            catch(Application.Compartilhado.Comportamentos.ValidationException ex)
+            catch(ValidationException ex)
             {
                 return TypedResults.BadRequest(ex.Errors);
 

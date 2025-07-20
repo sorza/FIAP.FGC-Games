@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar
 {    
-    public record Query(Guid Id) : IQuery<Response>;
+    public record Query(string Id) : IQuery<Response>;
 }
