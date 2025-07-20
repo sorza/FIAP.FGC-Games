@@ -5,10 +5,11 @@ using Fgc.Domain.Biblioteca.Exceptions.Genero;
 namespace Fgc.Tests.Domain.Biblioteca.Entidades
 {
     public class GeneroTests
-    {
+    {       
         [Fact]
         public void CriarGenero_Valido_DeveRetornarGenero()
         {
+            
             // Arrange
             string nome = "Ação";
             // Act
