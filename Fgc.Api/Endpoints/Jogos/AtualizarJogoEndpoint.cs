@@ -10,7 +10,10 @@ namespace Fgc.Api.Endpoints.Jogos
             => app.MapPut("/", HandleAsync)
             .WithName("Jogos: Atualizar")
             .WithSummary("Atualiza um jogo")
-            .WithDescription("Atualiza um jogo");
+            .WithDescription("Atualiza um jogo")
+            .Produces<Response>(StatusCodes.Status200OK)
+            .Produces<Response>(StatusCodes.Status409Conflict)
+            .Produces<Response>(StatusCodes.Status400BadRequest);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
@@ -26,7 +29,7 @@ namespace Fgc.Api.Endpoints.Jogos
             var result = await sender.Send(cmd, cancellationToken);
             IResult response = result.IsFailure
                 ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
-                : TypedResults.Created($"/v1/jogos/{result.Value.Id}", result.Value);
+                : TypedResults.Ok(result.Value);
             return response;
         }
     }

@@ -12,7 +12,10 @@ namespace Fgc.Api.Endpoints.Generos
             .WithName("Generos: Criar")
             .WithSummary("Cria um novo genero")
             .WithDescription("Cria um novo genero")
-            .Produces<Response>();
+            .Produces<Response>(StatusCodes.Status201Created)
+            .Produces<Response>(StatusCodes.Status409Conflict)
+            .Produces<Response>(StatusCodes.Status400BadRequest);
+
         private static async Task<IResult> HandleAsync(
             ISender sender,
             Command cmd,

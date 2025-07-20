@@ -10,7 +10,9 @@ namespace Fgc.Api.Endpoints.Generos
         => app.MapGet("/", HandleAsync)
             .WithName("Generos: Listar")
             .WithSummary("Lista todos os generos")
-            .WithDescription("Lista todos os generos");
+            .WithDescription("Lista todos os generos")
+            .Produces<Response>(StatusCodes.Status200OK)
+            .Produces<Response>(StatusCodes.Status404NotFound);
         private static async Task<IResult> HandleAsync(
             ISender sender,
             CancellationToken cancellationToken)

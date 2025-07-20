@@ -10,7 +10,10 @@ namespace Fgc.Api.Endpoints.Jogos
         => app.MapGet("/{id}", HandleAsync)
             .WithName("Jogos: Buscar")
             .WithSummary("Busca um jogo por id")
-            .WithDescription("Busca um jogo por id");
+            .WithDescription("Busca um jogo por id")
+            .Produces<Response>(StatusCodes.Status200OK)
+            .Produces<Response>(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest);
 
         private static async Task<IResult> HandleAsync(
            ISender sender,

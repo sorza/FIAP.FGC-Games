@@ -11,7 +11,10 @@ namespace Fgc.Api.Endpoints.Generos
         => app.MapPut("/", HandleAsync)
             .WithName("Generos: Atualizar")
             .WithSummary("Atualiza um genero")
-            .WithDescription("Atualiza um genero");
+            .WithDescription("Atualiza um genero")
+            .Produces<Response>(StatusCodes.Status200OK)
+            .Produces<Response>(StatusCodes.Status400BadRequest)
+            .Produces<Response>(StatusCodes.Status409Conflict);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
@@ -29,7 +32,7 @@ namespace Fgc.Api.Endpoints.Generos
 
             IResult response = result.IsFailure
                 ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
-                : TypedResults.Created($"/v1/generos/{result.Value.Id}", result.Value);
+                : TypedResults.Ok(result.Value);
 
             return response;
         }

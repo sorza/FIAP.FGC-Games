@@ -10,7 +10,10 @@ namespace Fgc.Api.Endpoints.Generos
             => app.MapGet("/{id}", HandleAsync)
                 .WithName("Generos: Buscar")
                 .WithSummary("Busca um genero por id")
-                .WithDescription("Busca um genero por id");      
+                .WithDescription("Busca um genero por id")
+                .Produces<Response>(StatusCodes.Status200OK)
+                .Produces<Response>(StatusCodes.Status404NotFound)
+                .Produces(StatusCodes.Status400BadRequest);
         private static async Task<IResult> HandleAsync(
             ISender sender,
             string id,

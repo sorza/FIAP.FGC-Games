@@ -11,7 +11,8 @@ namespace Fgc.Api.Endpoints.Jogos
             .WithName("Jogos: Listar")
             .WithSummary("Lista todos os jogos")
             .WithDescription("Lista todos os jogos")
-            .Produces<Response>();
+            .Produces<Response>(StatusCodes.Status200OK)
+            .Produces<Response>(StatusCodes.Status404NotFound);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,

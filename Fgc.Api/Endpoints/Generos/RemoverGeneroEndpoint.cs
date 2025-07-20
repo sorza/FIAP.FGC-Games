@@ -10,7 +10,11 @@ namespace Fgc.Api.Endpoints.Generos
         => app.MapDelete("/{id}", HandleAsync)
             .WithName("Generos: Remover")
             .WithSummary("Remove um genero")
-            .WithDescription("Remove um genero");
+            .WithDescription("Remove um genero")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces<Response>(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest);
+
         private static async Task<IResult> HandleAsync(
             ISender sender,
             string id,

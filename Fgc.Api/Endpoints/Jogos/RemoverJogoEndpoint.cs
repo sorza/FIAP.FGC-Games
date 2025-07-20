@@ -10,7 +10,10 @@ namespace Fgc.Api.Endpoints.Jogos
             => app.MapDelete("/{id}", HandleAsync)
             .WithName("Jogos: Remover")
             .WithSummary("Remove um jogo")
-            .WithDescription("Remove um jogo");
+            .WithDescription("Remove um jogo")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces<Response>(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
