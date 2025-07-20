@@ -1,5 +1,6 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar;
+using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;
 
 namespace Fgc.Api.Endpoints.Jogos
@@ -19,18 +20,19 @@ namespace Fgc.Api.Endpoints.Jogos
             ISender sender,
             Command cmd,
             CancellationToken cancellationToken)
-        {
-            if (!Guid.TryParse(cmd.Id, out var guid))
-                return TypedResults.BadRequest(new
-                {
-                    Code = "404",
-                    Message = $"'{cmd.Id}' não é um id válido."
-                });
-            var result = await sender.Send(cmd, cancellationToken);
-            IResult response = result.IsFailure
-                ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
-                : TypedResults.Ok(result.Value);
-            return response;
+        {            
+            try
+            {
+                var result = await sender.Send(cmd, cancellationToken);
+                IResult response = result.IsFailure
+                    ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
+                    : TypedResults.Ok(result.Value);
+                return response;
+            }
+            catch(ValidationException ex)
+            {
+                return TypedResults.BadRequest(new { ex.Message, ex.Errors });
+            }
         }
     }
 }

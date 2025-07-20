@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
 {
-    public sealed record Command(string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, IList<Generos.Buscar.Response> generos) : ICommand<Response>;
+    public sealed record Command(string Titulo, decimal Preco, DateTime DataLancamento, string Desenvolvedora, IList<Generos.Buscar.Response> Generos) : ICommand<Response>;
 }

@@ -8,8 +8,8 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover
     {
         public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
-            await repository.Deletar(request.id, cancellationToken);
-            return Result.Success(new Response(request.id));
+            await repository.Deletar(Guid.Parse(request.Id), cancellationToken);
+            return Result.Success(new Response(Guid.Parse(request.Id)));
         }
     }
 }

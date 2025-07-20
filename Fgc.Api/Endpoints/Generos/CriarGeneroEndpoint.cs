@@ -33,8 +33,7 @@ namespace Fgc.Api.Endpoints.Generos
             }
             catch(ValidationException ex)
             {
-                return TypedResults.BadRequest(ex.Errors);
-
+                return TypedResults.BadRequest(new { ex.Message, ex.Errors});
             }
         }
     }
