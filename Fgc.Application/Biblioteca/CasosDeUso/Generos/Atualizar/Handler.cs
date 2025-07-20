@@ -1,4 +1,5 @@
-﻿using Fgc.Application.Compartilhado.CasosDeUso.Abstracoes;
+﻿
+using Fgc.Application.Compartilhado.CasosDeUso.Abstracoes;
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Application.Compartilhado.Results;
 
@@ -8,7 +9,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Atualizar
     {
         public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var genero = await generoRepository.VerificaSeGeneroExisteAsync(request.Id, cancellationToken);
+            var genero = await generoRepository.VerificaSeGeneroExisteAsync(Guid.Parse(request.Id), cancellationToken);
 
             if(!genero)
                 return Result.Failure<Response>(new Error("400", "Este gênero não existe."));

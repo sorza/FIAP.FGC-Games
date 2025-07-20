@@ -8,10 +8,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Listar
     {  
         public async Task<Result<Response>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var generos = await repository.ObterTodos(cancellationToken);
-
-            if (generos is null || !generos.Any())
-                return Result.Failure<Response>(new Error("404", "Nenhum gênero encontrado."));
+            var generos = await repository.ObterTodos(cancellationToken);           
            
             return Result.Success(new Response(generos.Select(g => new Buscar.Response(g.Id, g.Nome)).ToList()));
         }
