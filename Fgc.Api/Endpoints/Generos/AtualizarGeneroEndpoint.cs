@@ -1,6 +1,7 @@
 ﻿
 using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Application.Biblioteca.CasosDeUso.Generos.Atualizar;
+using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;
 
 namespace Fgc.Api.Endpoints.Generos
@@ -21,20 +22,20 @@ namespace Fgc.Api.Endpoints.Generos
             Command cmd,
             CancellationToken cancellationToken)
         {
-            if (!Guid.TryParse(cmd.id, out var guid))
-                return TypedResults.BadRequest(new
-                {
-                    Code = "404",
-                    Message = $"'{cmd.id}' não é um id válido."
-                });
+            try
+            {
+                var result = await sender.Send(cmd, cancellationToken);
 
-            var result = await sender.Send(cmd, cancellationToken);
+                IResult response = result.IsFailure
+                    ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
+                    : TypedResults.Ok(result.Value);
 
-            IResult response = result.IsFailure
-                ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
-                : TypedResults.Ok(result.Value);
-
-            return response;
+                return response;
+            }
+            catch (ValidationException ex)
+            {
+                return TypedResults.BadRequest(new { ex.Message, ex.Errors });
+            }            
         }
     }
 }

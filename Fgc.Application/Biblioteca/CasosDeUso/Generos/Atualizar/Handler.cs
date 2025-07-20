@@ -8,13 +8,13 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Atualizar
     {
         public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var genero = await generoRepository.VerificaSeGeneroExisteAsync(request.id, cancellationToken);
+            var genero = await generoRepository.VerificaSeGeneroExisteAsync(request.Id, cancellationToken);
 
             if(!genero)
                 return Result.Failure<Response>(new Error("400", "Este gênero não existe."));
 
-            var generoExistente = await generoRepository.ObterPorId(Guid.Parse(request.id), cancellationToken);
-            generoExistente!.Atualizar(request.nome);
+            var generoExistente = await generoRepository.ObterPorId(Guid.Parse(request.Id), cancellationToken);
+            generoExistente!.Atualizar(request.Genero);
 
             await generoRepository.Alterar(generoExistente);
 
