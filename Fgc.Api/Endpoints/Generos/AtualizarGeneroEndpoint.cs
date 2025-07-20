@@ -12,6 +12,7 @@ namespace Fgc.Api.Endpoints.Generos
             .WithName("Generos: Atualizar")
             .WithSummary("Atualiza um genero")
             .WithDescription("Atualiza um genero");
+
         private static async Task<IResult> HandleAsync(
             ISender sender,
             Command cmd,

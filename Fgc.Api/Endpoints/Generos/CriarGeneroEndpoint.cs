@@ -1,6 +1,7 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fgc.Api.Endpoints.Generos
 {
@@ -17,13 +18,21 @@ namespace Fgc.Api.Endpoints.Generos
             Command cmd,
             CancellationToken cancellationToken)
         {
-            var result = await sender.Send(cmd, cancellationToken);
+            try
+            {
+                var result = await sender.Send(cmd, cancellationToken);
 
-            IResult response = result.IsFailure
-                ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
-                : TypedResults.Created($"/{result}", result.Value);
+                IResult response = result.IsFailure
+                    ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
+                    : TypedResults.Created($"/{result}", result.Value);
 
-            return response;
+                return response;
+            }
+            catch(Application.Compartilhado.Comportamentos.ValidationException ex)
+            {
+                return TypedResults.BadRequest(ex.Errors);
+
+            }
         }
     }
 }
