@@ -12,6 +12,8 @@ namespace Fgc.Application.Compartilhado
             {
                 x.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
                 x.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                x.AddOpenBehavior(typeof(LoggingBehavior<,>));
+
             });
 
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
