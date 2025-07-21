@@ -12,8 +12,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Listar
                 .ContinueWith(task =>
                 {
                     var jogos = task.Result;
-                    if (jogos is null || !jogos.Any())
-                        return Result.Failure<Response>(new Error("404", "Nenhum jogo encontrado."));
+                   
                     var response = new Response(jogos.Select(j => new Buscar.Response(
                         j.Id, 
                         j.Titulo, 

@@ -11,7 +11,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar
             var jogo = await jogoRepository.ObterPorId(Guid.Parse(request.Id), cancellationToken);
 
             if (jogo is null)
-                return Result.Failure<Response>(new Error("404", $"Jogo não encontrado."));
+                return Result.Failure<Response>(new Error("404", "Jogo não encontrado."));
 
             return Result.Success(new Response(
                 jogo.Id, 

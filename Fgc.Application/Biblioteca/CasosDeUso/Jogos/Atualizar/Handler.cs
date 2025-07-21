@@ -8,12 +8,12 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar
 {
     public sealed class Handler(IJogoRepository repository) : ICommandHandler<Command, Response>
     {
-        async Task<Result<Response>> IRequestHandler<Command, Result<Response>>.Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
             var jogo = await repository.ObterPorId(Guid.Parse(request.Id), cancellationToken);
 
             if (jogo is null)
-                throw new KeyNotFoundException("Jogo não encontrado.");
+                return Result.Failure<Response>(new Error("404", "Jogo não encontrado."));
 
             var generos = request.Generos
                 .Select(g => Genero.Criar(g.Id, g.Genero))

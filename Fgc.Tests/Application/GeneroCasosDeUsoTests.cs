@@ -28,21 +28,19 @@ namespace Fgc.Tests.Application
         public void CriarGeneroCasoDeUso_DeveCriarNovoGenero()
         {
             // Arrange
-            // Cria um novo gênero
-            var novoGenero = Genero.Criar("Ação");
-
+           
             // Configura o mock do repositório para retornar sucesso ao cadastrar o gênero
             _generoRepositoryMock.Setup(repo => repo.Cadastrar(It.IsAny<Genero>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
             // Act
             // Chama o caso de uso para criar o gênero
-            var resultado = _criarGeneroCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command(novoGenero.Nome), CancellationToken.None).Result;
+            var resultado = _criarGeneroCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command("Ação"), CancellationToken.None).Result;
 
             // Assert
             // Verifica se o resultado foi bem-sucedido e se o gênero criado é o mesmo que o esperado
             Assert.True(resultado.IsSuccess);
-            Assert.Equal(novoGenero.Nome, resultado.Value.Genero);
+            Assert.Equal("Ação", resultado.Value.Genero);
         }
 
         [Fact]
