@@ -12,6 +12,7 @@ namespace Fgc.Application.Compartilhado
             {
                 x.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
                 x.AddOpenBehavior(typeof(ValidationBehavior<,>));
+                x.AddOpenBehavior(typeof(TransactionBehavior<,>));
                 x.AddOpenBehavior(typeof(LoggingBehavior<,>));
 
             });
