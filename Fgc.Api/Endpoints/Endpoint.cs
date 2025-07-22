@@ -1,6 +1,7 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Api.Endpoints.Generos;
 using Fgc.Api.Endpoints.Jogos;
+using Fgc.Api.Endpoints.Usuario;
 
 namespace Fgc.Api.Endpoints
 {
@@ -26,6 +27,9 @@ namespace Fgc.Api.Endpoints
                 .MapEndpoint<AtualizarJogoEndpoint>()
                 .MapEndpoint<RemoverJogoEndpoint>();              
 
+            endpoints.MapGroup("v1/usuarios")
+                .WithTags("Usuários")
+                .MapEndpoint<CriarContaEndpoint>();
         }
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
             where TEndpoint : IEndpoint

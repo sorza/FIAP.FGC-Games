@@ -1,6 +1,7 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Infrastructure.Biblioteca.Repositorios;
 using Fgc.Infrastructure.Compartilhado.Data;
+using Fgc.Infrastructure.Usuario.Repositorios;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fgc.Infrastructure.Compartilhado
@@ -12,6 +13,7 @@ namespace Fgc.Infrastructure.Compartilhado
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGeneroRepository, GeneroRepository>();
             services.AddScoped<IJogoRepository, JogoRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             return services;
         }
