@@ -1,4 +1,5 @@
-﻿using Fgc.Domain.Compartilhado.ObjetosDeValor;
+﻿using Fgc.Domain.Usuario.Exceptions;
+using Fgc.Domain.Compartilhado.ObjetosDeValor;
 using Fgc.Domain.Usuario.Exceptions.Senha;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
@@ -34,16 +35,14 @@ namespace Fgc.Domain.Usuario.ObjetosDeValor
 
         public static Senha Criar(string password)
         {
-            if (string.IsNullOrWhiteSpace(password))
-                throw new SenhaNulaOuVaziaException("Senha não pode ser vazia.");
+            if (string.IsNullOrWhiteSpace(password) || password == string.Empty)
+                throw new SenhaNulaOuVaziaException(MensagemDeErro.Senha.NulaOuVazia);
 
             if (password.Length is < MinLength or > MaxLength)
-                throw new SenhaInvalidaException(
-                    $"Senha deve ter entre {MinLength} e {MaxLength} caracteres.");
+                throw new SenhaInvalidaException(MensagemDeErro.Senha.Invalida);
 
             if (!SenhaRegex().IsMatch(password))
-                throw new SenhaInvalidaException(
-                    "Senha deve conter letras, números e caracteres especiais.");
+                throw new SenhaInvalidaException(MensagemDeErro.Senha.Invalida);
 
             var hasher = new Rfc2898DeriveBytes(
                                 password,
