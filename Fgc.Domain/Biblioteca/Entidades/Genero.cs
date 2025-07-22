@@ -1,5 +1,5 @@
-﻿using Fgc.Domain.Biblioteca.Exceptions.Genero;
-using Fgc.Domain.Biblioteca.Exceptions;
+﻿using Fgc.Domain.Biblioteca.Exceptions;
+using Fgc.Domain.Biblioteca.Exceptions.Genero;
 using Fgc.Domain.Compartilhado.Entidades;
 
 namespace Fgc.Domain.Biblioteca.Entidades
@@ -54,13 +54,14 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
         #region Sobrecargas        
         public override string ToString() => Nome;
-
         public override bool Equals(object? obj)
         {
             if (obj is not Genero genero)
                 return false;
             return Nome == genero.Nome;
         }
+        public override int GetHashCode() => Nome.GetHashCode();
+        
 
         #endregion
 
@@ -75,7 +76,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
                 throw new GeneroNuloOuVazioException(MensagemDeErro.Genero.NuloOuVazio);
             Nome = nome;
             AtualizarDataAlteracao();
-        }
+        }       
         #endregion
     }
 }

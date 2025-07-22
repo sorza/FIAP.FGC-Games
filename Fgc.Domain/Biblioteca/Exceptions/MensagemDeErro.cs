@@ -24,5 +24,6 @@
             public string GeneroObrigatorio{ get; } = "O jogo deve possuir pelo menos um gênero";
             public string DesenvolvedoraNulaOuVazia { get; } = "A desenvolvedora não pode ser nula ou vazia";
         }
+
     }
 }

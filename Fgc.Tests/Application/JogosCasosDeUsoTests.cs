@@ -46,7 +46,7 @@ namespace Fgc.Tests.Application
         }
 
         [Fact]
-        public void CriarJogoCasoDeUso_DeveCriarNovoJogo()
+        public async void CriarJogoCasoDeUso_DeveCriarNovoJogo()
         {
             // Arrange
             List<Response> generos = new List<Response> { new Response(Guid.NewGuid(), "Ação"), new Response(Guid.NewGuid(), "Aventura") };
@@ -55,7 +55,7 @@ namespace Fgc.Tests.Application
             _jogoRepositoryMock.Setup(repo => repo.Cadastrar(It.IsAny<Jogo>(), It.IsAny<CancellationToken>()))
                   .Returns(Task.CompletedTask);
 
-            var resultado = _criarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Command("Novo Jogo", 50, DateTime.Now.AddYears(-5), "Fiap", generos), CancellationToken.None).Result;
+            var resultado = await _criarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Command("Novo Jogo", 50, DateTime.Now.AddYears(-5), "Fiap", generos), CancellationToken.None);
 
             // Assert
             Assert.NotNull(resultado);
@@ -84,7 +84,7 @@ namespace Fgc.Tests.Application
         }
 
         [Fact]
-        public void AtualizarJogoCasoDeUso_DeveAtualizarJogoExistente()
+        public async void AtualizarJogoCasoDeUso_DeveAtualizarJogoExistente()
         {
             // Arrange
             var jogoExistente = Jogo.Criar("Jogo Existente", 100, DateTime.Now, "Desenvolvedora Existente", new List<Genero> { Genero.Criar("Ação") });
@@ -93,7 +93,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(jogoExistente);
 
             // Act
-            var resultado = _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(jogoExistente.Id.ToString(), "Jogo Atualizado", 150, DateTime.Now.AddYears(-1), "Nova Desenvolvedora", new List<Response>()), CancellationToken.None).Result;
+            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(jogoExistente.Id.ToString(), "Jogo Atualizado", 150, DateTime.Now.AddYears(-1), "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
             
             // Assert
             Assert.NotNull(resultado);
@@ -121,14 +121,14 @@ namespace Fgc.Tests.Application
         }
 
         [Fact]
-        public void ExcluirJogoCasoDeUso_JogoNaoExistente_DeveRetornarErro()
+        public async void ExcluirJogoCasoDeUso_JogoNaoExistente_DeveRetornarErro()
         {
             // Arrange
             _jogoRepositoryMock.Setup(repo => repo.VerificaSeJogoExisteAsync(It.IsAny<Jogo>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
             // Act
-            var resultado = _excluirJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover.Command(Guid.NewGuid().ToString()), CancellationToken.None).Result;
+            var resultado = await _excluirJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover.Command(Guid.NewGuid().ToString()), CancellationToken.None);
             
             // Assert
             Assert.False(resultado.IsSuccess);
@@ -141,7 +141,7 @@ namespace Fgc.Tests.Application
         {
             // Arrange
             _jogoRepositoryMock.Setup(repo => repo.ObterPorId(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Jogo)null);
+                .ReturnsAsync((Jogo)null!);
 
             // Act
             var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(Guid.NewGuid().ToString(), "Jogo Atualizado", 150, DateTime.Now.AddYears(-1), "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
@@ -157,7 +157,7 @@ namespace Fgc.Tests.Application
         {
             // Arrange
             _jogoRepositoryMock.Setup(repo => repo.ObterPorId(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Jogo)null);
+                .ReturnsAsync((Jogo)null!);
 
             // Act
             var resultado = await _obterJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar.Query(Guid.NewGuid().ToString()), CancellationToken.None);

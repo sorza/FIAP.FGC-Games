@@ -19,7 +19,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
             var jogoExistente = await jogoRepository.VerificaSeJogoExisteAsync(jogo);
 
             if (jogoExistente)
-                return Result.Failure<Response>(new Error("400", "Este jogo já está cadastrado."));                       
+                return Result.Failure<Response>(new Error("409", "Este jogo já está cadastrado."));                       
            
             await jogoRepository.Cadastrar(jogo, cancellationToken);
             

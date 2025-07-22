@@ -5,7 +5,8 @@ using MediatR;
 namespace Fgc.Application.Compartilhado.Comportamentos
 {
     public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TResponse : Result 
+    where TResponse : Result
+    where TRequest : notnull
     {
         private readonly IUnitOfWork _uow;
 

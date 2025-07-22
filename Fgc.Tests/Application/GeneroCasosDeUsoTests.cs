@@ -25,7 +25,7 @@ namespace Fgc.Tests.Application
         }
 
         [Fact]
-        public void CriarGeneroCasoDeUso_DeveCriarNovoGenero()
+        public async void CriarGeneroCasoDeUso_DeveCriarNovoGenero()
         {
             // Arrange
            
@@ -35,7 +35,7 @@ namespace Fgc.Tests.Application
 
             // Act
             // Chama o caso de uso para criar o gênero
-            var resultado = _criarGeneroCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command("Ação"), CancellationToken.None).Result;
+            var resultado = await _criarGeneroCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Criar.Command("Ação"), CancellationToken.None);
 
             // Assert
             // Verifica se o resultado foi bem-sucedido e se o gênero criado é o mesmo que o esperado
@@ -113,7 +113,7 @@ namespace Fgc.Tests.Application
         }
 
         [Fact]
-        public void ExcluirGeneroCasoDeUso_DeveExcluirGeneroExistente()
+        public async void ExcluirGeneroCasoDeUso_DeveExcluirGeneroExistente()
         {
             // Arrange
             // Cria um gênero existente para simular o retorno do repositório
@@ -129,7 +129,7 @@ namespace Fgc.Tests.Application
 
             // Act
             // Chama o caso de uso para excluir o gênero
-            var resultado = _excluirGeneroCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Remover.Command(generoExistente.Id.ToString()), CancellationToken.None).Result;
+            var resultado = await _excluirGeneroCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Remover.Command(generoExistente.Id.ToString()), CancellationToken.None);
 
             // Assert
             // Verifica se o resultado foi bem-sucedido
@@ -194,7 +194,7 @@ namespace Fgc.Tests.Application
         }
 
         [Fact]
-        public void ObterGenerosCasoDeUso_DeveRetornarListaVaziaQuandoNaoHouverGeneros()
+        public async void ObterGenerosCasoDeUso_DeveRetornarListaVaziaQuandoNaoHouverGeneros()
         {
             // Arrange
             // Configura o mock do repositório para retornar uma lista vazia de gêneros
@@ -203,7 +203,7 @@ namespace Fgc.Tests.Application
 
             // Act
             // Chama o caso de uso para obter a lista de gêneros
-            var resultado = _obterGenerosCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Listar.Query(), CancellationToken.None).Result;
+            var resultado = await _obterGenerosCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Generos.Listar.Query(), CancellationToken.None);
 
             // Assert
             // Verifica se o resultado foi bem-sucedido e se a lista de gêneros está vazia
