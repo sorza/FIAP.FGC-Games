@@ -19,7 +19,7 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
             return await _context.Jogos
                 .AsNoTracking()
                 .AnyAsync(x => x.Titulo == jogo.Titulo &&
-                               x.DataLancamento.Date.Year == jogo.DataLancamento.Date.Year &&
+                               x.AnoLancamento == jogo.AnoLancamento &&
                                x.Desenvolvedora == jogo.Desenvolvedora, cancellationToken);
         }
 

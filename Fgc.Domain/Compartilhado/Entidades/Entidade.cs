@@ -3,7 +3,7 @@
     public abstract class Entidade(Guid id) : IEquatable<Entidade>
     {
         public Guid Id { get; init; } = id;
-        public DateTime DataCriacao { get; } = DateTime.UtcNow;
+        public DateTime DataCriacao { get; private set; } = DateTime.UtcNow;
         public DateTime? DataAlteracao { get; private set; }
         public bool Equals(Entidade? other)
         {

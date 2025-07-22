@@ -12,19 +12,19 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Arrange
             string nome = "The Legend of Zelda: Breath of the Wild";
             string desenvolvedora = "Nintendo";
-            DateTime dataLancamento = new DateTime(2017, 3, 3);
+            int anoLancamento = 2000;
             var generos = new List<Genero>();
             var genero =Genero.Criar("Aventura");
             generos.Add(genero);
 
             // Act
-            var jogo = Jogo.Criar(nome,50,dataLancamento, desenvolvedora, generos);
+            var jogo = Jogo.Criar(nome,50,anoLancamento, desenvolvedora, generos);
 
             // Assert
             Assert.NotNull(jogo);
             Assert.Equal(nome, jogo.Titulo);
             Assert.Equal(desenvolvedora, jogo.Desenvolvedora);
-            Assert.Equal(dataLancamento, jogo.DataLancamento);
+            Assert.Equal(anoLancamento, jogo.AnoLancamento);
             Assert.Equal(generos, jogo.Generos);
         }
 
@@ -34,13 +34,13 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Arrange
             string titulo = string.Empty;
             string desenvolvedora = "Nintendo";
-            DateTime dataLancamento = new DateTime(2017, 3, 3);
+            int anoLancamento = 2002;
             var generos = new List<Genero>();
             var genero = Genero.Criar("Aventura");
             generos.Add(genero);
 
             // Act & Assert
-            var exception = Assert.Throws<TituloNuloOuVazioException>(() => Jogo.Criar(titulo, 50, dataLancamento, desenvolvedora, generos));
+            var exception = Assert.Throws<TituloNuloOuVazioException>(() => Jogo.Criar(titulo, 50, anoLancamento, desenvolvedora, generos));
             Assert.Equal(MensagemDeErro.Jogo.TituloNuloOuVazio, exception.Message);
         }
 
@@ -50,12 +50,12 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Arrange
             string titulo = "The Legend of Zelda: Breath of the Wild";
             string desenvolvedora = "Nintendo";
-            DateTime dataLancamento = new DateTime(2017, 3, 3);
+            int anoLacamento = 2000;
             var generos = new List<Genero>();
             var genero = Genero.Criar("Aventura");
             generos.Add(genero);
             // Act & Assert
-            var exception = Assert.Throws<PrecoNegativoException>(() => Jogo.Criar(titulo, -10, dataLancamento, desenvolvedora, generos));
+            var exception = Assert.Throws<PrecoNegativoException>(() => Jogo.Criar(titulo, -10, anoLacamento, desenvolvedora, generos));
             Assert.Equal(MensagemDeErro.Jogo.PrecoNegativo, exception.Message);
         }
 
@@ -65,12 +65,12 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Arrange
             string titulo = "The Legend of Zelda: Breath of the Wild";
             string desenvolvedora = "Nintendo";
-            DateTime dataLancamento = DateTime.UtcNow.AddDays(1); 
+            int anoLancamento = 2030;
             var generos = new List<Genero>();
             var genero = Genero.Criar("Aventura");
             generos.Add(genero);
             // Act & Assert
-            var exception = Assert.Throws<DataLancamentoFuturaException>(() => Jogo.Criar(titulo, 50, dataLancamento, desenvolvedora, generos));
+            var exception = Assert.Throws<DataLancamentoFuturaException>(() => Jogo.Criar(titulo, 50, anoLancamento, desenvolvedora, generos));
             Assert.Equal(MensagemDeErro.Jogo.DataLancamentoFutura, exception.Message);
         }
 
@@ -80,10 +80,10 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Arrange
             string titulo = "The Legend of Zelda: Breath of the Wild";
             string desenvolvedora = "Nintendo";
-            DateTime dataLancamento = new DateTime(2017, 3, 3);
+            int anoLancamento = 2000;
             var generos = new List<Genero>();
             // Act & Assert
-            var exception = Assert.Throws<GeneroObrigatorioException>(() => Jogo.Criar(titulo, 50, dataLancamento, desenvolvedora, generos));
+            var exception = Assert.Throws<GeneroObrigatorioException>(() => Jogo.Criar(titulo, 50, anoLancamento, desenvolvedora, generos));
             Assert.Equal(MensagemDeErro.Jogo.GeneroObrigatorio, exception.Message);
         }
 
@@ -92,13 +92,13 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         {
             // Arrange
             string titulo = "The Legend of Zelda: Breath of the Wild";
-            string desenvolvedora = string.Empty; 
-            DateTime dataLancamento = new DateTime(2017, 3, 3);
+            string desenvolvedora = string.Empty;
+            int anoLancamento = 2000;
             var generos = new List<Genero>();
             var genero = Genero.Criar("Aventura");
             generos.Add(genero);
             // Act & Assert
-            var exception = Assert.Throws<DesenvolvedoraNulaOuVaziaException>(() => Jogo.Criar(titulo, 50, dataLancamento, desenvolvedora, generos));
+            var exception = Assert.Throws<DesenvolvedoraNulaOuVaziaException>(() => Jogo.Criar(titulo, 50, anoLancamento, desenvolvedora, generos));
             Assert.Equal(MensagemDeErro.Jogo.DesenvolvedoraNulaOuVazia, exception.Message);
         }
 
@@ -107,7 +107,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         {
             // Arrange
             var genero = Genero.Criar("Aventura");
-            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, 2000, "Nintendo", new List<Genero> { genero });
             // Act
             jogo.AdicionarGenero(genero);
             // Assert
@@ -120,7 +120,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Arrange
             var genero1 = Genero.Criar("Aventura");
             var genero2 = Genero.Criar("Ação");
-            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero1 });
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, 2000, "Nintendo", new List<Genero> { genero1 });
             // Act
             jogo.AdicionarGenero(genero2);
             // Assert
@@ -133,7 +133,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         {
             // Arrange
             var genero = Genero.Criar("Aventura");
-            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, 2000, "Nintendo", new List<Genero> { genero });
             // Act
             jogo.RemoverGenero(genero);
             // Assert
@@ -145,11 +145,11 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         {
             // Arrange
             var genero = Genero.Criar("Aventura");
-            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, 2000, "Nintendo", new List<Genero> { genero });
 
             var novoTitulo = "The Legend of Zelda: Tears of the Kingdom";
             var novoPreco = 60m;
-            var novaDataLancamento = new DateTime(2023, 5, 12);
+            var novaDataLancamento = 2025;
             var novaDesenvolvedora = "Nintendo EPD";
             var novosGeneros = new List<Genero> { Genero.Criar("Aventura"), Genero.Criar("RPG") };
             // Act
@@ -157,7 +157,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             // Assert
             Assert.Equal(novoTitulo, jogo.Titulo);
             Assert.Equal(novoPreco, jogo.Preco);
-            Assert.Equal(novaDataLancamento, jogo.DataLancamento);
+            Assert.Equal(novaDataLancamento, jogo.AnoLancamento);
             Assert.Equal(novaDesenvolvedora, jogo.Desenvolvedora);
             Assert.Equal(novosGeneros.Count, jogo.Generos.Count);
         }        

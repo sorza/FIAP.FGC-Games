@@ -30,8 +30,8 @@ namespace Fgc.Tests.Application
             // Arrange         
             var jogos = new List<Jogo>
             {
-                Jogo.Criar("Jogo 1", 100, DateTime.Now, "Desenvolvedora 1", new List<Genero> { Genero.Criar("Ação") }),
-                Jogo.Criar("Jogo 2", 125, DateTime.Now, "Desenvolvedora 2", new List<Genero> { Genero.Criar("Aventura"), Genero.Criar("Terror") })
+                Jogo.Criar("Jogo 1", 100, 2000, "Desenvolvedora 1", new List<Genero> { Genero.Criar("Ação") }),
+                Jogo.Criar("Jogo 2", 125, 1900, "Desenvolvedora 2", new List<Genero> { Genero.Criar("Aventura"), Genero.Criar("Terror") })
             };
 
             _jogoRepositoryMock.Setup(repo => repo.ObterTodos(It.IsAny<CancellationToken>()))
@@ -55,7 +55,7 @@ namespace Fgc.Tests.Application
             _jogoRepositoryMock.Setup(repo => repo.Cadastrar(It.IsAny<Jogo>(), It.IsAny<CancellationToken>()))
                   .Returns(Task.CompletedTask);
 
-            var resultado = await _criarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Command("Novo Jogo", 50, DateTime.Now.AddYears(-5), "Fiap", generos), CancellationToken.None);
+            var resultado = await _criarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Command("Novo Jogo", 50, DateTime.Now.Year, "Fiap", generos), CancellationToken.None);
 
             // Assert
             Assert.NotNull(resultado);
@@ -67,7 +67,7 @@ namespace Fgc.Tests.Application
         {
             // Arrange
 
-            var jogo = Jogo.Criar("Jogo Teste", 100, DateTime.Now, "Desenvolvedora Teste", new List<Genero> { Genero.Criar("Ação") });
+            var jogo = Jogo.Criar("Jogo Teste", 100, DateTime.Now.Year, "Desenvolvedora Teste", new List<Genero> { Genero.Criar("Ação") });
 
             _jogoRepositoryMock.Setup(repo => repo.ObterPorId(jogo.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(jogo);
@@ -87,13 +87,13 @@ namespace Fgc.Tests.Application
         public async void AtualizarJogoCasoDeUso_DeveAtualizarJogoExistente()
         {
             // Arrange
-            var jogoExistente = Jogo.Criar("Jogo Existente", 100, DateTime.Now, "Desenvolvedora Existente", new List<Genero> { Genero.Criar("Ação") });
+            var jogoExistente = Jogo.Criar("Jogo Existente", 100, DateTime.Now.Year, "Desenvolvedora Existente", new List<Genero> { Genero.Criar("Ação") });
 
             _jogoRepositoryMock.Setup(repo => repo.ObterPorId(jogoExistente.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(jogoExistente);
 
             // Act
-            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(jogoExistente.Id.ToString(), "Jogo Atualizado", 150, DateTime.Now.AddYears(-1), "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
+            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(jogoExistente.Id.ToString(), "Jogo Atualizado", 150, DateTime.Now.Year, "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
             
             // Assert
             Assert.NotNull(resultado);
@@ -105,7 +105,7 @@ namespace Fgc.Tests.Application
         public async Task ExcluirJogoCasoDeUso_DeveExcluirJogoExistente()
         {
             // Arrange
-            var jogoExistente = Jogo.Criar("Jogo para Excluir", 100, DateTime.Now, "Desenvolvedora para Excluir", new List<Genero> { Genero.Criar("Ação") });
+            var jogoExistente = Jogo.Criar("Jogo para Excluir", 100, DateTime.Now.Year, "Desenvolvedora para Excluir", new List<Genero> { Genero.Criar("Ação") });
 
             _jogoRepositoryMock.Setup(repo => repo.VerificaSeJogoExisteAsync(It.IsAny<Jogo>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
@@ -144,7 +144,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync((Jogo)null!);
 
             // Act
-            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(Guid.NewGuid().ToString(), "Jogo Atualizado", 150, DateTime.Now.AddYears(-1), "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
+            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(Guid.NewGuid().ToString(), "Jogo Atualizado", 150, DateTime.Now.Year, "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
             
             // Assert
             Assert.False(resultado.IsSuccess);

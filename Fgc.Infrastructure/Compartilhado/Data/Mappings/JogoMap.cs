@@ -33,9 +33,9 @@ namespace Fgc.Infrastructure.Compartilhado.Data.Mappings
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
-            builder.Property(x=> x.DataLancamento)
-                .HasColumnName("DataLancamento")
-                .HasColumnType("datetime")
+            builder.Property(x=> x.AnoLancamento)
+                .HasColumnName("AnoLancamento")
+                .HasColumnType("int")
                 .IsRequired();
 
             builder.Property(x => x.Desenvolvedora)

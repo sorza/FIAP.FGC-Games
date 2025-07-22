@@ -1,6 +1,7 @@
-﻿using Fgc.Domain.Usuario.Exceptions;
-using Fgc.Domain.Compartilhado.ObjetosDeValor;
+﻿using Fgc.Domain.Compartilhado.ObjetosDeValor;
+using Fgc.Domain.Usuario.Exceptions;
 using Fgc.Domain.Usuario.Exceptions.Senha;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -32,7 +33,6 @@ namespace Fgc.Domain.Usuario.ObjetosDeValor
         #endregion
 
         #region Fábricas
-
         public static Senha Criar(string password)
         {
             if (string.IsNullOrWhiteSpace(password) || password == string.Empty)
@@ -73,7 +73,20 @@ namespace Fgc.Domain.Usuario.ObjetosDeValor
             return hasher.GetBytes(32).SequenceEqual(hashed);
         }
         #endregion
-     
+
+        #region Operators
+
+        public static implicit operator string(Senha senha) => senha.ToString();
+
+
+        #endregion
+
+        #region Sobrecargas
+
+        public override string ToString() => Hash;
+
+        #endregion
+
         #region Outros
         [GeneratedRegex(Pattern)]
         private static partial Regex SenhaRegex();

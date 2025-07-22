@@ -4,6 +4,7 @@ using Fgc.Infrastructure.Compartilhado.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fgc.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250722222439_Conta")]
+    partial class Conta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,10 +56,6 @@ namespace Fgc.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AnoLancamento")
-                        .HasColumnType("int")
-                        .HasColumnName("AnoLancamento");
-
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("datetime2")
                         .HasColumnName("DataAlteracao");
@@ -64,6 +63,10 @@ namespace Fgc.Infrastructure.Migrations
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2")
                         .HasColumnName("DataCriacao");
+
+                    b.Property<DateTime>("DataLancamento")
+                        .HasColumnType("datetime")
+                        .HasColumnName("DataLancamento");
 
                     b.Property<string>("Desenvolvedora")
                         .IsRequired()
@@ -95,9 +98,6 @@ namespace Fgc.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")

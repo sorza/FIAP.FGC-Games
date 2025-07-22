@@ -21,7 +21,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         {
             // Arrange
             var genero = Genero.Criar("Aventura");
-            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, new DateTime(2017, 3, 3), "Nintendo", new List<Genero> { genero });
+            var jogo = Jogo.Criar("The Legend of Zelda: Breath of the Wild", 50, 2025, "Nintendo", new List<Genero> { genero });
             // Act && Assert            
             Assert.NotEqual(DateTime.MinValue, jogo.DataCriacao);
             Assert.NotEqual(DateTime.MinValue, genero.DataCriacao);

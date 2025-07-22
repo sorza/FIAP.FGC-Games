@@ -16,11 +16,11 @@ namespace Fgc.Domain.Biblioteca.Entidades
             
         }
 
-        private Jogo(Guid id, string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, List<Genero> generos) : base(id)
+        private Jogo(Guid id, string titulo, decimal preco, int anoLancamento, string desenvolvedora, List<Genero> generos) : base(id)
         {
             Titulo = titulo;
             Preco = preco;
-            DataLancamento = dataLancamento;
+            AnoLancamento = anoLancamento;
             _generos = generos;
             Desenvolvedora = desenvolvedora;
         }
@@ -29,7 +29,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Propriedades
         public string Titulo { get; private set; } = string.Empty;      
         public decimal Preco { get; private set; }
-        public DateTime DataLancamento { get; private set; }        
+        public int AnoLancamento { get; private set; }        
         public string Desenvolvedora { get; private set; } = string.Empty;
         public IReadOnlyCollection<Genero> Generos => _generos;
 
@@ -37,20 +37,20 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
         #region Fábricas
 
-        public static Jogo Criar(string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, List<Genero> generos)
+        public static Jogo Criar(string titulo, decimal preco, int anoLancamento, string desenvolvedora, List<Genero> generos)
         {
             if (string.IsNullOrWhiteSpace(titulo))
                 throw new TituloNuloOuVazioException(MensagemDeErro.Jogo.TituloNuloOuVazio);
             if (preco < 0)
                 throw new PrecoNegativoException(MensagemDeErro.Jogo.PrecoNegativo);
-            if (dataLancamento > DateTime.UtcNow)
+            if (anoLancamento > DateTime.UtcNow.Year)
                 throw new DataLancamentoFuturaException(MensagemDeErro.Jogo.DataLancamentoFutura);
             if (generos == null || generos.Count == 0)
                 throw new GeneroObrigatorioException(MensagemDeErro.Jogo.GeneroObrigatorio);
             if (string.IsNullOrWhiteSpace(desenvolvedora))
                 throw new DesenvolvedoraNulaOuVaziaException(MensagemDeErro.Jogo.DesenvolvedoraNulaOuVazia);
 
-            return new Jogo(Guid.NewGuid(), titulo, preco, dataLancamento, desenvolvedora, generos);
+            return new Jogo(Guid.NewGuid(), titulo, preco, anoLancamento, desenvolvedora, generos);
         }
 
         #endregion
@@ -83,11 +83,11 @@ namespace Fgc.Domain.Biblioteca.Entidades
             _generos.Remove(genero);
             AtualizarDataAlteracao();
         }
-        public void Atualizar(string titulo, decimal preco, DateTime dataLancamento, string desenvolvedora, List<Genero> generos)
+        public void Atualizar(string titulo, decimal preco, int anoLancamento, string desenvolvedora, List<Genero> generos)
         {            
             Titulo = titulo;
             Preco = preco;
-            DataLancamento = dataLancamento;
+            AnoLancamento = anoLancamento;
             _generos.Clear();
             _generos.AddRange(generos);
             Desenvolvedora = desenvolvedora;

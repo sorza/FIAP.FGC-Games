@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar
 {
-    public sealed record Response(Guid Id, string Titulo, decimal Preco, DateTime DataLancamento, string Desenvolvedora, IList<Generos.Buscar.Response> Generos) : IQueryResponse;
+    public sealed record Response(Guid Id, string Titulo, decimal Preco, int AnoLancamento, string Desenvolvedora, IList<Generos.Buscar.Response> Generos) : IQueryResponse;
 }

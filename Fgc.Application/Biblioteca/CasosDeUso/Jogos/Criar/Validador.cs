@@ -17,8 +17,8 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
                 .GreaterThan(0)
                 .WithMessage("O preço do jogo deve ser maior que zero.");
 
-            RuleFor(x => x.DataLancamento)
-                .LessThanOrEqualTo(DateTime.Now)
+            RuleFor(x => x.AnoLancamento)
+                .LessThanOrEqualTo(DateTime.Now.Year)
                 .WithMessage("A data de lançamento não pode ser no futuro.");
 
             RuleFor(x => x.Desenvolvedora)

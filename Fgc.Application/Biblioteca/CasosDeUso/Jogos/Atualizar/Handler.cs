@@ -19,7 +19,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar
                 .Select(g => Genero.Criar(g.Id, g.Genero))
                 .ToList();
 
-            jogo.Atualizar(request.Titulo, request.Preco, request.DataLancamento, request.Desenvolvedora, generos);
+            jogo.Atualizar(request.Titulo, request.Preco, request.AnoLancamento, request.Desenvolvedora, generos);
 
             await repository.Alterar(jogo, cancellationToken);
 
@@ -28,7 +28,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar
                 jogo.Id,
                 jogo.Titulo,
                 jogo.Preco,
-                jogo.DataLancamento,
+                jogo.AnoLancamento,
                 jogo.Desenvolvedora,
                 request.Generos
             ));

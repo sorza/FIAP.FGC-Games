@@ -17,7 +17,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Listar
                         j.Id, 
                         j.Titulo, 
                         j.Preco, 
-                        j.DataLancamento, 
+                        j.AnoLancamento, 
                         j.Desenvolvedora, 
                         j.Generos.Select(g => new Generos.Buscar.Response(g.Id, g.Nome)).ToList())).ToList());
                     return Result.Success(response);

@@ -1,4 +1,5 @@
 ﻿using Fgc.Domain.Biblioteca.Entidades;
+using Fgc.Domain.Usuario.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fgc.Infrastructure.Compartilhado.Data
@@ -7,6 +8,7 @@ namespace Fgc.Infrastructure.Compartilhado.Data
     {
         public DbSet<Jogo> Jogos { get; set; } = null!;
         public DbSet<Genero> Generos { get; set; } = null!;
+        public DbSet<Conta> Contas { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DependencyInjection).Assembly);

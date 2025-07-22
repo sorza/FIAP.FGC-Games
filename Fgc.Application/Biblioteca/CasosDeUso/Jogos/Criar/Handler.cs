@@ -12,7 +12,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
             var jogo = Jogo.Criar(
                 request.Titulo, 
                 request.Preco, 
-                request.DataLancamento, 
+                request.AnoLancamento, 
                 request.Desenvolvedora, 
                 request.Generos.Select(g => Genero.Criar(g.Id, g.Genero)).ToList());
 
@@ -23,7 +23,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar
            
             await jogoRepository.Cadastrar(jogo, cancellationToken);
             
-            return Result.Success(new Response(jogo.Id, jogo.Titulo, jogo.Preco, jogo.DataLancamento, jogo.Desenvolvedora, request.Generos));
+            return Result.Success(new Response(jogo.Id, jogo.Titulo, jogo.Preco, jogo.AnoLancamento, jogo.Desenvolvedora, request.Generos));
         }
     }
 }
