@@ -1,6 +1,7 @@
 ﻿using Fgc.Application.Compartilhado.CasosDeUso.Abstracoes;
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Application.Compartilhado.Results;
+using Fgc.Domain.Usuario.Enums;
 
 namespace Fgc.Application.Usuario.CasosDeUso.Conta.Criar
 {
@@ -17,7 +18,7 @@ namespace Fgc.Application.Usuario.CasosDeUso.Conta.Criar
                 request.nome,
                 request.senha,
                 request.email,
-                request.tipoPerfil);
+                ETipoPerfil.Comum);
 
             await repository.Cadastrar(usuario, cancellationToken);
 
