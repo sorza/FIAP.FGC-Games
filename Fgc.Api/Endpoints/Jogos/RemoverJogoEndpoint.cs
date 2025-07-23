@@ -14,7 +14,8 @@ namespace Fgc.Api.Endpoints.Jogos
             .WithDescription("Remove um jogo")
             .Produces(StatusCodes.Status204NoContent)
             .Produces<Response>(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization("SomenteAdmin");
 
         private static async Task<IResult> HandleAsync(
             ISender sender,

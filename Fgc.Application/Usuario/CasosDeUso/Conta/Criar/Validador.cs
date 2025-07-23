@@ -23,10 +23,6 @@ namespace Fgc.Application.Usuario.CasosDeUso.Conta.Criar
             RuleFor(c => c.email)
                 .NotNull().WithMessage("O email é obrigatório.")
                 .EmailAddress().WithMessage("O email deve ser um endereço de email válido.");
-
-            RuleFor(c => c.tipoPerfil)
-                .IsInEnum().WithMessage("O tipo de perfil é inválido.");
-
         }
 
     }

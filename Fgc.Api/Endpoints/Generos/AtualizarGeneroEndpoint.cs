@@ -15,7 +15,8 @@ namespace Fgc.Api.Endpoints.Generos
             .WithDescription("Atualiza um genero")
             .Produces<Response>(StatusCodes.Status200OK)
             .Produces<Response>(StatusCodes.Status400BadRequest)
-            .Produces<Response>(StatusCodes.Status409Conflict);
+            .Produces<Response>(StatusCodes.Status409Conflict)
+            .RequireAuthorization("SomenteAdmin");
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
