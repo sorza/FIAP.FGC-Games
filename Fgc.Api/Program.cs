@@ -1,4 +1,5 @@
 using Fgc.Api.Endpoints;
+using Fgc.Api.Middlewares;
 using Fgc.Application.Compartilhado;
 using Fgc.Infrastructure.Compartilhado;
 using Fgc.Infrastructure.Compartilhado.Data;
@@ -7,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Serilog.Context;
 using System.Text;
 
 Log.Logger = new LoggerConfiguration()
@@ -96,22 +96,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.UseSerilogRequestLogging(options =>
-{
-    options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} retornou {StatusCode} em {Elapsed:0.0000} ms";
-});
-
-
-app.Use(async (ctx, next) =>
-{
-    var correlationId = ctx.Request.Headers["X-Correlation-ID"].FirstOrDefault()
-                        ?? Guid.NewGuid().ToString();
-    ctx.Response.Headers["X-Correlation-ID"] = correlationId;
-    using (LogContext.PushProperty("CorrelationId", correlationId))
-    {
-        await next();
-    }
-});
+app.UseCorrelationId();
+app.UseRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
