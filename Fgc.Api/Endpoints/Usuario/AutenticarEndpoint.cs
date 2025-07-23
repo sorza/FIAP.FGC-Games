@@ -9,7 +9,7 @@ namespace Fgc.Api.Endpoints.Usuario
     public class AutenticarEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/autenticar", HandleAsync)
+        => app.MapPost("/login/", HandleAsync)
             .WithName("Usuario: Autenticar")
             .WithSummary("Autentica um usuário")
             .WithDescription("Realiza a autenticação de um usuário com email e senha")

@@ -13,7 +13,7 @@ namespace Fgc.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250722224014_jogo-ano-lancamento")]
-    partial class jogoanolancamento
+    partial class JogoAnoLancamento
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

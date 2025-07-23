@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Fgc.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class jogoanolancamento : Migration
+    public partial class JogoAnoLancamento : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
