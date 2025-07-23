@@ -1,5 +1,7 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
+using Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar;
 using Fgc.Domain.Usuario.Entidades;
+using Fgc.Domain.Usuario.ObjetosDeValor;
 using Fgc.Infrastructure.Compartilhado.Data;
 using Fgc.Infrastructure.Compartilhado.Repositorios;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +16,18 @@ namespace Fgc.Infrastructure.Usuario.Repositorios
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public bool VerificaSeUsuarioExiste(string email, CancellationToken cancellationToken = default)
+        public async Task<Conta?> Autenticar(Email email, CancellationToken cancellationToken)
         {
-            return _context.Contas
+            var conta = await _context.Contas
                 .AsNoTracking()
-                .Any(u => u.Email.Address == email);
+                .FirstOrDefaultAsync(u => u.Email.Address == email.Address, cancellationToken);
+
+            return conta;
         }
+            
+
+        public bool VerificaSeUsuarioExiste(string email, CancellationToken cancellationToken = default)
+            => _context.Contas.AsNoTracking().Any(u => u.Email.Address == email);
+        
     }
 }

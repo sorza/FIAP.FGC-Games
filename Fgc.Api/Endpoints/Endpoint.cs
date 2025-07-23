@@ -29,7 +29,8 @@ namespace Fgc.Api.Endpoints
 
             endpoints.MapGroup("v1/usuarios")
                 .WithTags("Usuários")
-                .MapEndpoint<CriarContaEndpoint>();
+                .MapEndpoint<CriarContaEndpoint>()
+                .MapEndpoint<AutenticarEndpoint>();
         }
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
             where TEndpoint : IEndpoint

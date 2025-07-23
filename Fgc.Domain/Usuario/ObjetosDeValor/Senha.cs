@@ -65,12 +65,18 @@ namespace Fgc.Domain.Usuario.ObjetosDeValor
         {
             var data = Convert.FromBase64String(Hash);
             var salt = data[..16];
-            var hashed = data[16..];
+            var storedHash = data[16..];
+           
+            using var derive = new Rfc2898DeriveBytes(
+                password,
+                salt,
+                iterations: 100_000,
+                HashAlgorithmName.SHA256);
 
-            using var hasher = new Rfc2898DeriveBytes(
-                password, salt, 100_000, HashAlgorithmName.SHA256);
+            var computedHash = derive.GetBytes(32);
+            
+            return CryptographicOperations.FixedTimeEquals(computedHash, storedHash);
 
-            return hasher.GetBytes(32).SequenceEqual(hashed);
         }
         #endregion
 

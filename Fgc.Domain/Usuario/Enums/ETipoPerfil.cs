@@ -2,7 +2,7 @@
 {
     public enum ETipoPerfil
     {
-        Administrador = 0,
+        Admin = 0,
         Comum = 1
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
+using Fgc.Application.Compartilhado.Services;
 using Fgc.Infrastructure.Biblioteca.Repositorios;
 using Fgc.Infrastructure.Compartilhado.Data;
+using Fgc.Infrastructure.Compartilhado.Services;
 using Fgc.Infrastructure.Usuario.Repositorios;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +16,8 @@ namespace Fgc.Infrastructure.Compartilhado
             services.AddScoped<IGeneroRepository, GeneroRepository>();
             services.AddScoped<IJogoRepository, JogoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
 
             return services;
         }
