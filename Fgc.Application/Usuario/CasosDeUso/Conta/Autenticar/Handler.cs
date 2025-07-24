@@ -23,11 +23,11 @@ namespace Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar
             if (!conta.Ativo)
                 return Result.Failure<Response>(new Error("403", "Conta inativa."));
            
-            var tokenInfo = jwtService.GenerateToken(conta);
+            var tokenInfo = jwtService.GerarToken(conta);
 
             var response = new Response(
             tokenInfo.Token,
-            tokenInfo.ExpiresAt);
+            tokenInfo.Validade);
 
             return Result.Success(response);
         }

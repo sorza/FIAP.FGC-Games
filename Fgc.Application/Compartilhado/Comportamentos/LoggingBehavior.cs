@@ -1,6 +1,6 @@
-﻿using Fgc.Application.Compartilhado.CasosDeUso.Abstracoes;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 using System.Diagnostics;
 
 namespace Fgc.Application.Compartilhado.Comportamentos
@@ -11,32 +11,46 @@ namespace Fgc.Application.Compartilhado.Comportamentos
 
     {
         private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
-
-        public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
-        {
-            _logger = logger;
-        }
+        public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger) => _logger = logger;
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            var stopwatch = Stopwatch.StartNew();
-
-            try
+            using (LogContext.PushProperty("RequestName", typeof(TRequest).Name))
             {
-                _logger.LogInformation($"Executando requisição: {request.GetType().FullName}");
-                var result = await next();
+                var timer = Stopwatch.StartNew();
 
-                stopwatch.Stop();
+                // 2) Log de início
+                _logger.LogInformation(
+                  "Processando a requisicao {RequestName} {@Request}",
+                  typeof(TRequest).FullName,
+                  request);
 
-                _logger.LogInformation($"Requisição {request.GetType().FullName} processada em {stopwatch.ElapsedMilliseconds}ms.");
-                return result;
+                try
+                {
+                    var response = await next();
+                    timer.Stop();
+                  
+                    _logger.LogInformation(
+                      "A requisicao {RequestName} foi processada em {ElapsedMilliseconds}ms",
+                      typeof(TRequest).Name,
+                      timer.ElapsedMilliseconds);
+
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    timer.Stop();
+                   
+                    _logger.LogError(
+                      ex,
+                      "A requisicao {RequestName} falhou depois de {ElapsedMilliseconds}ms",
+                      typeof(TRequest).Name,
+                      timer.ElapsedMilliseconds);
+
+                    throw;
+                }
             }
-            catch (Exception e)
-            {
-                stopwatch.Stop();
-                _logger.LogError(e, $"Ocorreu um erro durante o processamento da requisição: {request.GetType().FullName} depois de {stopwatch.ElapsedMilliseconds}ms");
-                throw;
-            }
+
         }
     }
 }

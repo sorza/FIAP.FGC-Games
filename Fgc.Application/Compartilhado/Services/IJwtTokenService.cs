@@ -4,7 +4,7 @@ namespace Fgc.Application.Compartilhado.Services
 {
     public interface IJwtTokenService
     {
-        TokenInfo GenerateToken(Conta user);
+        TokenInfo GerarToken(Conta user);
     }
-    public record TokenInfo(string Token, DateTime ExpiresAt);
+    public record TokenInfo(string Token, DateTime Validade);
 }

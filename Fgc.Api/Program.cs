@@ -1,5 +1,5 @@
 using Fgc.Api.Endpoints;
-using Fgc.Api.Middlewares;
+using Fgc.Api.Utils.JsonLogs;
 using Fgc.Application.Compartilhado;
 using Fgc.Infrastructure.Compartilhado;
 using Fgc.Infrastructure.Compartilhado.Data;
@@ -8,16 +8,31 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Serilog.Context;
+using Serilog.Events;
 using System.Text;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .Enrich.FromLogContext()
-    .Enrich.WithMachineName()
-    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
+var arraySink = new JsonArray(
+    path: "logs/log.json",
+    formatter: new FormatadorIndentado()
+);
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()                         
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .Destructure.ByTransforming<Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar.Command>(cmd => new {
+        cmd.email,
+        Senha = "***SECRET***"
+    })
+    .Enrich.FromLogContext()
+    .Enrich.WithProperty("ServiceName", "Fgc.Api")
+    .WriteTo.Sink(arraySink)
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Host.UseSerilog();
 
 builder.Services
     .AddAuthentication(options =>
@@ -45,9 +60,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("SomenteAdmin", policy =>
         policy.RequireRole("Admin"));
 });
-
-
-builder.Host.UseSerilog();
 
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
@@ -93,11 +105,37 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
 var app = builder.Build();
 
-app.UseCorrelationId();
-app.UseRequestLogging();
+app.Use(async (ctx, next) =>
+{
+    var correlationId = ctx.Request.Headers["X-Correlation-ID"]
+                          .FirstOrDefault()
+                      ?? Guid.NewGuid().ToString();
+    ctx.Response.Headers["X-Correlation-ID"] = correlationId;
+    using (LogContext.PushProperty("CorrelationId", correlationId))
+        await next();
+});
+
+app.UseSerilogRequestLogging(opts =>
+{
+    opts.MessageTemplate =
+      "HTTP {RequestMethod} A requisicao {RequestPath} retornou {StatusCode} em {Elapsed:0.0000} ms";
+    
+    opts.GetLevel = (httpContext, elapsed, exception) =>
+    {
+        if (exception is not null)
+            return LogEventLevel.Error;
+
+        var status = httpContext.Response.StatusCode;
+        if (status >= 500)
+            return LogEventLevel.Error;
+        if (status >= 400)
+            return LogEventLevel.Warning;
+
+        return LogEventLevel.Information;
+    };
+});
 
 if (app.Environment.IsDevelopment())
 {
@@ -116,4 +154,7 @@ app.UseAuthorization();
 app.MapEndpoints();
 
 app.Run();
+
 Log.CloseAndFlush();
+
+

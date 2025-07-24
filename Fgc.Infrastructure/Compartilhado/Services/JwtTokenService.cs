@@ -17,7 +17,7 @@ namespace Fgc.Infrastructure.Compartilhado.Services
             _configuration = configuration;
         }
 
-        public TokenInfo GenerateToken(Conta user)
+        public TokenInfo GerarToken(Conta user)
         {            
             var key = _configuration["Jwt:Key"];
             if (string.IsNullOrEmpty(key))
