@@ -8,7 +8,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
     public class Biblioteca : Entidade
     {
         #region Campos
-        public IReadOnlyCollection<BibliotecaJogo> Jogos => _jogos.AsReadOnly();
+        private readonly List<BibliotecaJogo> _jogos = [];
 
         #endregion
 
@@ -37,8 +37,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Propriedades
         public Guid ContaId { get; private set; }
         public Conta Conta { get; private set; }
-
-        private readonly List<BibliotecaJogo> _jogos = [];
+        public IReadOnlyCollection<BibliotecaJogo> Jogos => _jogos.AsReadOnly();       
 
         #endregion
 
