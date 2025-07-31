@@ -1,6 +1,7 @@
 ﻿using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Domain.Biblioteca.Entidades;
+using Jogos = Fgc.Application.Biblioteca.CasosDeUso.Jogos;
 using Moq;
 
 namespace Fgc.Tests.Application
@@ -8,20 +9,20 @@ namespace Fgc.Tests.Application
     public class JogosCasosDeUsoTests
     {
         private readonly Mock<IJogoRepository> _jogoRepositoryMock;
-        private readonly Fgc.Application.Biblioteca.CasosDeUso.Jogos.Listar.Handler _obterJogosCasoDeUso;
-        private readonly Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar.Handler _obterJogoCasoDeUso;
-        private readonly Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Handler _criarJogoCasoDeUso;
-        private readonly Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Handler _atualizarJogoCasoDeUso;
-        private readonly Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover.Handler _excluirJogoCasoDeUso;
+        private readonly Jogos.Listar.Handler _obterJogosCasoDeUso;
+        private readonly Jogos.Buscar.Handler _obterJogoCasoDeUso;
+        private readonly Jogos.Criar.Handler _criarJogoCasoDeUso;
+        private readonly Jogos.Atualizar.Handler _atualizarJogoCasoDeUso;
+        private readonly Jogos.Remover.Handler _excluirJogoCasoDeUso;
 
         public JogosCasosDeUsoTests()
         {
             _jogoRepositoryMock = new Mock<IJogoRepository>();
-            _obterJogosCasoDeUso = new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Listar.Handler(_jogoRepositoryMock.Object);
-            _obterJogoCasoDeUso = new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar.Handler(_jogoRepositoryMock.Object);
-            _criarJogoCasoDeUso = new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Handler(_jogoRepositoryMock.Object);
-            _atualizarJogoCasoDeUso = new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Handler(_jogoRepositoryMock.Object);
-            _excluirJogoCasoDeUso = new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover.Handler(_jogoRepositoryMock.Object);
+            _obterJogosCasoDeUso = new Jogos.Listar.Handler(_jogoRepositoryMock.Object);
+            _obterJogoCasoDeUso = new Jogos.Buscar.Handler(_jogoRepositoryMock.Object);
+            _criarJogoCasoDeUso = new Jogos.Criar.Handler(_jogoRepositoryMock.Object);
+            _atualizarJogoCasoDeUso = new Jogos.Atualizar.Handler(_jogoRepositoryMock.Object);
+            _excluirJogoCasoDeUso = new Jogos.Remover.Handler(_jogoRepositoryMock.Object);
         }
 
         [Fact]
@@ -38,7 +39,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(jogos);
 
             // Act
-            var result = await _obterJogosCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Listar.Query(), CancellationToken.None);
+            var result = await _obterJogosCasoDeUso.Handle(new Jogos.Listar.Query(), CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -55,7 +56,7 @@ namespace Fgc.Tests.Application
             _jogoRepositoryMock.Setup(repo => repo.Cadastrar(It.IsAny<Jogo>(), It.IsAny<CancellationToken>()))
                   .Returns(Task.CompletedTask);
 
-            var resultado = await _criarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Criar.Command("Novo Jogo", 50, DateTime.Now.Year, "Fiap", generos), CancellationToken.None);
+            var resultado = await _criarJogoCasoDeUso.Handle(new Jogos.Criar.Command("Novo Jogo", 50, DateTime.Now.Year, "Fiap", generos), CancellationToken.None);
 
             // Assert
             Assert.NotNull(resultado);
@@ -73,7 +74,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(jogo);
 
             // Act
-            var result = await _obterJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar.Query(jogo.Id.ToString()), CancellationToken.None);
+            var result = await _obterJogoCasoDeUso.Handle(new Jogos.Buscar.Query(jogo.Id.ToString()), CancellationToken.None);
             
             // Assert
             Assert.True(result.IsSuccess);
@@ -93,7 +94,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(jogoExistente);
 
             // Act
-            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(jogoExistente.Id.ToString(), "Jogo Atualizado", 150, DateTime.Now.Year, "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
+            var resultado = await _atualizarJogoCasoDeUso.Handle(new Jogos.Atualizar.Command(jogoExistente.Id.ToString(), "Jogo Atualizado", 150, DateTime.Now.Year, "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
             
             // Assert
             Assert.NotNull(resultado);
@@ -114,7 +115,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(jogoExistente);
 
             // Act
-            var resultado = await _excluirJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover.Command(jogoExistente.Id.ToString()), CancellationToken.None);
+            var resultado = await _excluirJogoCasoDeUso.Handle(new Jogos.Remover.Command(jogoExistente.Id.ToString()), CancellationToken.None);
 
             // Assert
             Assert.True(resultado.IsSuccess);
@@ -128,7 +129,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(false);
 
             // Act
-            var resultado = await _excluirJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover.Command(Guid.NewGuid().ToString()), CancellationToken.None);
+            var resultado = await _excluirJogoCasoDeUso.Handle(new Jogos.Remover.Command(Guid.NewGuid().ToString()), CancellationToken.None);
             
             // Assert
             Assert.False(resultado.IsSuccess);
@@ -144,7 +145,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync((Jogo)null!);
 
             // Act
-            var resultado = await _atualizarJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar.Command(Guid.NewGuid().ToString(), "Jogo Atualizado", 150, DateTime.Now.Year, "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
+            var resultado = await _atualizarJogoCasoDeUso.Handle(new Jogos.Atualizar.Command(Guid.NewGuid().ToString(), "Jogo Atualizado", 150, DateTime.Now.Year, "Nova Desenvolvedora", new List<Response>()), CancellationToken.None);
             
             // Assert
             Assert.False(resultado.IsSuccess);
@@ -160,7 +161,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync((Jogo)null!);
 
             // Act
-            var resultado = await _obterJogoCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar.Query(Guid.NewGuid().ToString()), CancellationToken.None);
+            var resultado = await _obterJogoCasoDeUso.Handle(new Jogos.Buscar.Query(Guid.NewGuid().ToString()), CancellationToken.None);
 
             // Assert
             Assert.False(resultado.IsSuccess);
@@ -175,7 +176,7 @@ namespace Fgc.Tests.Application
             _jogoRepositoryMock.Setup(repo => repo.ObterTodos(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<Jogo>());
             // Act
-            var result = await _obterJogosCasoDeUso.Handle(new Fgc.Application.Biblioteca.CasosDeUso.Jogos.Listar.Query(), CancellationToken.None);
+            var result = await _obterJogosCasoDeUso.Handle(new Jogos.Listar.Query(), CancellationToken.None);
             // Assert
             Assert.True(result.IsSuccess);
             Assert.Empty(result.Value.Jogos);
