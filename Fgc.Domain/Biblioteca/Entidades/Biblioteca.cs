@@ -54,6 +54,5 @@ namespace Fgc.Domain.Biblioteca.Entidades
             _jogos.Add(BibliotecaJogo.Criar(this, jogo, DateTime.UtcNow));
         }
         #endregion
-
     }
 }
