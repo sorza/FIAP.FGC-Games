@@ -36,7 +36,6 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
         #region Propriedades
         public Guid ContaId { get; private set; }
-        public Conta Conta { get; private set; }
         public IReadOnlyCollection<BibliotecaJogo> Jogos => _jogos.AsReadOnly();       
 
         #endregion

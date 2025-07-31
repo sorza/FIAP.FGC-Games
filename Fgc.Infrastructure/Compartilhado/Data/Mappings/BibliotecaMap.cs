@@ -20,11 +20,6 @@ namespace Fgc.Infrastructure.Compartilhado.Data.Mappings
                 .HasColumnName("ContaId")
                 .IsRequired();
 
-            builder.HasOne(b => b.Conta)
-                .WithMany()
-                .HasForeignKey(b => b.ContaId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasMany(b => b.Jogos)
                 .WithOne(j => j.Biblioteca)
                 .HasForeignKey(j => j.BibliotecaId)
