@@ -20,6 +20,11 @@ namespace Fgc.Infrastructure.Compartilhado.Data.Mappings
                 .HasColumnName("ContaId")
                 .IsRequired();
 
+            builder.Property(b => b.Titulo)
+                .HasColumnName("Titulo")
+                .HasMaxLength(150)
+                .IsRequired();
+
             builder.HasMany(b => b.Jogos)
                 .WithOne(j => j.Biblioteca)
                 .HasForeignKey(j => j.BibliotecaId)

@@ -13,6 +13,6 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
         }
 
         public async Task<bool> VerificaSeBibliotecaExisteAsync(Guid id, CancellationToken cancellationToken = default)
-            => await _context.Bibliotecas.AsNoTracking().AnyAsync(a => a.Id == id, cancellationToken);
+            => await _context.Bibliotecas.AsNoTracking().AnyAsync(a => a.ContaId == id, cancellationToken);
     }
 }

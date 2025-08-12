@@ -2,7 +2,6 @@
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Application.Compartilhado.Results;
 using Fgc.Domain.Biblioteca.Entidades;
-using MediatR;
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar
 {
