@@ -1,20 +1,19 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
-using Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar;
+using Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Buscar;
 using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;
 
-namespace Fgc.Api.Endpoints.Generos
+namespace Fgc.Api.Endpoints.Biblioteca
 {
-    public class BuscarGeneroEndpoint : IEndpoint
+    public class BuscarBibliotecaEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
-            => app.MapGet("/{id}", HandleAsync)
-                .WithName("Generos: Buscar")
-                .WithSummary("Busca um genero por id")
-                .WithDescription("Busca um genero por id")
-                .Produces<Response>(StatusCodes.Status200OK)
-                .Produces<Response>(StatusCodes.Status404NotFound)
-                .Produces(StatusCodes.Status400BadRequest);
+             => app.MapGet("/{id}", HandleAsync)
+                 .WithName("Bibliotecas: Buscar")
+                 .WithSummary("Busca uma biblioteca por id")
+                 .WithDescription("Busca uma biblioteca por id")
+                 .Produces<Response>(StatusCodes.Status200OK)
+                 .Produces<Response>(StatusCodes.Status404NotFound);
         private static async Task<IResult> HandleAsync(
             ISender sender,
             string id,
@@ -27,7 +26,7 @@ namespace Fgc.Api.Endpoints.Generos
                     ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
                     : TypedResults.Ok(result.Value);
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
                 return TypedResults.BadRequest(new { ex.Message, ex.Errors });
             }

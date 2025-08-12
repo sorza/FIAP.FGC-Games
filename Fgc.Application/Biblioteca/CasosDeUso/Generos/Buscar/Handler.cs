@@ -1,7 +1,6 @@
 ﻿using Fgc.Application.Compartilhado.CasosDeUso.Abstracoes;
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Application.Compartilhado.Results;
-using Fgc.Domain.Biblioteca.Entidades;
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar
 {

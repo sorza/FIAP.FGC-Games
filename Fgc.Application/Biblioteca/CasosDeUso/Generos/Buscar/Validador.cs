@@ -2,9 +2,9 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Generos.Buscar
 {
-    public class Validator : AbstractValidator<Query>
+    public class Validador : AbstractValidator<Query>
     {
-        public Validator() 
+        public Validador() 
         {
             RuleFor(x => x)
                 .NotNull().WithMessage("A consulta não pode ser nula.");

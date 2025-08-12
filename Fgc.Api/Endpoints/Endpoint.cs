@@ -34,8 +34,9 @@ namespace Fgc.Api.Endpoints
                 .MapEndpoint<AutenticarEndpoint>();
 
             endpoints.MapGroup("v1/biblioteca")
-                .WithTags("Biblioteca")
-                .MapEndpoint<CriarBibliotecaEndpoint>();
+                .WithTags("Bibliotecas")
+                .MapEndpoint<CriarBibliotecaEndpoint>()
+                .MapEndpoint<BuscarBibliotecaEndpoint>();
         }
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
             where TEndpoint : IEndpoint
