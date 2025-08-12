@@ -11,10 +11,10 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         {
             // Arrange
             var jogo = Jogo.Criar("Test Game", 59.99m, DateTime.UtcNow.Year, "Test Developer", new List<Genero> { Genero.Criar("Ação") });
-            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid());
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Titulo");
 
             // Act
-            var bibliotecaJogo = BibliotecaJogo.Criar(biblioteca, jogo, DateTime.Now);
+            var bibliotecaJogo = BibliotecaJogo.Criar(biblioteca, jogo);
 
             // Assert
             Assert.NotNull(bibliotecaJogo);
@@ -34,7 +34,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             Jogo jogo = Jogo.Criar("Test Game", 59.99m, DateTime.UtcNow.Year, "Test Developer", new List<Genero> { Genero.Criar("Ação") });
 
             // Act & Assert
-            var exception = Assert.Throws<BibliotecaNulaException>(() => BibliotecaJogo.Criar(null, jogo, DateTime.Now));
+            var exception = Assert.Throws<BibliotecaNulaException>(() => BibliotecaJogo.Criar(null!, jogo));
             Assert.Equal(MensagemDeErro.Biblioteca.BibliotecaNula, exception.Message);
         }
 
@@ -42,10 +42,10 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         public void CriarBibliotecaJogo_JogoNulo_DeveLancarJogoNuloException()
         {
             // Arrange
-            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid());
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Titulo");
 
             // Act & Assert
-            var exception = Assert.Throws<JogoNuloException>(() => BibliotecaJogo.Criar(biblioteca, null, DateTime.Now));
+            var exception = Assert.Throws<JogoNuloException>(() => BibliotecaJogo.Criar(biblioteca, null!));
             Assert.Equal(MensagemDeErro.Biblioteca.JogoNulo, exception.Message);
         }
     }

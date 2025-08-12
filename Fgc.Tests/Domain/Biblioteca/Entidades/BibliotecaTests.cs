@@ -13,7 +13,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             Guid contaId = Guid.NewGuid();
 
             // Act
-            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(contaId);
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(contaId,"Titulo");
 
             // Assert
             Assert.NotNull(biblioteca);
@@ -28,7 +28,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<ContaIdVazioException>(() 
-                => Task.FromResult(Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(contaId)));
+                => Task.FromResult(Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(contaId, "Titulo")));
 
             Assert.Equal(MensagemDeErro.Biblioteca.ContaIdVazio, exception.Message);
         }
@@ -37,7 +37,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         public void AdicionarJogo_JogoValido_DeveAdicionarJogoNaBiblioteca()
         {
             // Arrange
-            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid());
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Titulo");
             var jogo = Jogo.Criar("Test Game", 59.99m, DateTime.UtcNow.Year, "Test Developer", new List<Genero> { Genero.Criar("Ação"), Genero.Criar("Aventura")});
             
             // Act
@@ -51,7 +51,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
         public void AdicionarJogo_JogoNulo_DeveLancarJogoNuloException()
         {
             // Arrange
-            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid());
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(),"Titulo");
             
             // Act & Assert
             var exception = Assert.Throws<JogoNuloException>(() => biblioteca.AdicionarJogo(null));

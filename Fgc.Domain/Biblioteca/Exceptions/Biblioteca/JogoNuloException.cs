@@ -1,5 +1,5 @@
 ﻿namespace Fgc.Domain.Biblioteca.Exceptions.Biblioteca
 {
-    public class JogoNuloException(string message) : Exception(message);
+    public class JogoNuloException(string mensagem) : Exception(mensagem);
    
 }

@@ -9,26 +9,26 @@ namespace Fgc.Domain.Biblioteca.Entidades
         #region Construtores
         private BibliotecaJogo() : base (Guid.NewGuid()){ }
 
-        private BibliotecaJogo(Guid id, Biblioteca biblioteca, Jogo jogo, DateTime data) : base(id)
+        private BibliotecaJogo(Guid id, Biblioteca biblioteca, Jogo jogo) : base(id)
         {
             Biblioteca = biblioteca;
             BibliotecaId = biblioteca.Id;
             Jogo = jogo;
             JogoId = jogo.Id;
-            DataAquisicao = data;
+            DataAquisicao = DateTime.Now;
             ValorPago = jogo.Preco;
         }
         #endregion
 
         #region Fábricas
 
-        public static BibliotecaJogo Criar(Biblioteca biblioteca, Jogo jogo, DateTime data)
+        public static BibliotecaJogo Criar(Biblioteca biblioteca, Jogo jogo)
         {
             if (biblioteca is null)
                 throw new BibliotecaNulaException(MensagemDeErro.Biblioteca.BibliotecaNula);
             if (jogo is null)
                 throw new JogoNuloException(MensagemDeErro.Biblioteca.JogoNulo);
-            return new BibliotecaJogo(Guid.NewGuid(), biblioteca, jogo, data);
+            return new BibliotecaJogo(Guid.NewGuid(), biblioteca, jogo);
         }
 
         #endregion

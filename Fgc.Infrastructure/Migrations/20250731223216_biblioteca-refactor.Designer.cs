@@ -13,7 +13,7 @@ namespace Fgc.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250731223216_biblioteca-refactor")]
-    partial class bibliotecarefactor
+    partial class BibliotecaRefactor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

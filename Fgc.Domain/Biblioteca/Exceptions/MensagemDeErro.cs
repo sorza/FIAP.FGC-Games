@@ -33,6 +33,7 @@
             public string JogoNaoEncontrado { get; } = "O jogo não foi encontrado na biblioteca";
             public string JogoJaAdicionado { get; } = "O jogo já está adicionado na biblioteca";
             public string BibliotecaNula { get; } = "A biblioteca não pode ser nula";
+            public string TituloNuloOuVazio { get; } = "O título do jogo não pode ser nulo ou vazio";
         }
 
     }

@@ -1,7 +1,6 @@
 ﻿using Fgc.Domain.Biblioteca.Exceptions;
 using Fgc.Domain.Biblioteca.Exceptions.Biblioteca;
 using Fgc.Domain.Compartilhado.Entidades;
-using Fgc.Domain.Usuario.Entidades;
 
 namespace Fgc.Domain.Biblioteca.Entidades
 {
@@ -18,24 +17,30 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
         }
 
-        private Biblioteca(Guid id, Guid contaId) : base(id)
+        private Biblioteca(Guid id, Guid contaId, string titulo) : base(id)
         {
             ContaId = contaId;
+            Titulo = titulo;
         }
 
         #endregion
 
         #region Fábricas
-        public static Biblioteca Criar(Guid contaId)
+        public static Biblioteca Criar(Guid contaId, string titulo)
         {
             if (contaId == Guid.Empty)
                 throw new ContaIdVazioException(MensagemDeErro.Biblioteca.ContaIdVazio);
-            return new Biblioteca(Guid.NewGuid(), contaId);
+
+            if (string.IsNullOrWhiteSpace(titulo))
+                throw new TituloNuloOuVazioException(MensagemDeErro.Biblioteca.TituloNuloOuVazio);
+
+            return new Biblioteca(Guid.NewGuid(), contaId, titulo);
         }
         #endregion
 
         #region Propriedades
         public Guid ContaId { get; private set; }
+        public string Titulo { get; private set; }
         public IReadOnlyCollection<BibliotecaJogo> Jogos => _jogos.AsReadOnly();       
 
         #endregion
@@ -49,7 +54,7 @@ namespace Fgc.Domain.Biblioteca.Entidades
             if (_jogos.Any(x => x.JogoId == jogo.Id))
                 throw new JogoJaAdicionadoException(MensagemDeErro.Biblioteca.JogoJaAdicionado);
 
-            _jogos.Add(BibliotecaJogo.Criar(this, jogo, DateTime.UtcNow));
+            _jogos.Add(BibliotecaJogo.Criar(this, jogo));
         }
         #endregion
     }

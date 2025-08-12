@@ -5,7 +5,7 @@
 namespace Fgc.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class bibliotecarefactor : Migration
+    public partial class BibliotecaRefactor : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
