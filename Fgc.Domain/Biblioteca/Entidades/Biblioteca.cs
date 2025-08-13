@@ -56,6 +56,13 @@ namespace Fgc.Domain.Biblioteca.Entidades
 
             _jogos.Add(BibliotecaJogo.Criar(this, jogo));
         }
+
+        public void AtualizarTitulo(string titulo)
+        {
+            if (string.IsNullOrWhiteSpace(titulo))
+                throw new TituloNuloOuVazioException(MensagemDeErro.Biblioteca.TituloNuloOuVazio);
+            Titulo = titulo;
+        }
         #endregion
     }
 }
