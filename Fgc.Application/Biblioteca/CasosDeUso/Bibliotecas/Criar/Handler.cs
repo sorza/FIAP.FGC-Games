@@ -2,7 +2,7 @@
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Application.Compartilhado.Results;
 
-namespace Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Criar
+namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Criar
 {
     public sealed class Handler(IBibliotecaRepository repository) : ICommandHandler<Command, Response>
     {

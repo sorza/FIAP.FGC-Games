@@ -2,7 +2,7 @@
 using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Application.Compartilhado.Results;
 
-namespace Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Buscar
+namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Buscar
 {
     public class Handler(IBibliotecaRepository repository) : IQueryHandler<Query, Response>
     {

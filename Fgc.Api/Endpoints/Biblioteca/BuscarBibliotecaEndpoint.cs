@@ -1,5 +1,5 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
-using Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Buscar;
+using Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Buscar;
 using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;
 

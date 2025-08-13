@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Remover
+namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Remover
 {
     public class Validador : AbstractValidator<Command>
     {

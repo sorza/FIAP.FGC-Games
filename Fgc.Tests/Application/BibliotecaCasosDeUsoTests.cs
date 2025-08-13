@@ -1,26 +1,26 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Moq;
-using Biblioteca = Fgc.Application.Biblioteca.CasosDeUso.Biblioteca;
+using Bibliotecas = Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas;
 
 namespace Fgc.Tests.Application
 {
     public class BibliotecaCasosDeUsoTests
     {
         private readonly Mock<IBibliotecaRepository> _bibliotecaRepositoryMock;
-        private readonly Biblioteca.Listar.Handler _obterBibliotecas;
-        private readonly Biblioteca.Buscar.Handler _obterBiblioteca;
-        private readonly Biblioteca.Criar.Handler _criarBiblioteca;
-        private readonly Biblioteca.Atualizar.Handler _atualizarJBiblioteca;
-        private readonly Biblioteca.Remover.Handler _excluirBiblioteca;
+        private readonly Bibliotecas.Listar.Handler _obterBibliotecas;
+        private readonly Bibliotecas.Buscar.Handler _obterBiblioteca;
+        private readonly Bibliotecas.Criar.Handler _criarBiblioteca;
+        private readonly Bibliotecas.Atualizar.Handler _atualizarJBiblioteca;
+        private readonly Bibliotecas.Remover.Handler _excluirBiblioteca;
 
         public BibliotecaCasosDeUsoTests()
         {
             _bibliotecaRepositoryMock = new Mock<IBibliotecaRepository>();
-            _obterBibliotecas = new Biblioteca.Listar.Handler(_bibliotecaRepositoryMock.Object);
-            _obterBiblioteca = new Biblioteca.Buscar.Handler(_bibliotecaRepositoryMock.Object);
-            _criarBiblioteca = new Biblioteca.Criar.Handler(_bibliotecaRepositoryMock.Object);
-            _atualizarJBiblioteca = new Biblioteca.Atualizar.Handler(_bibliotecaRepositoryMock.Object);
-            _excluirBiblioteca = new Biblioteca.Remover.Handler(_bibliotecaRepositoryMock.Object);
+            _obterBibliotecas = new Bibliotecas.Listar.Handler(_bibliotecaRepositoryMock.Object);
+            _obterBiblioteca = new Bibliotecas.Buscar.Handler(_bibliotecaRepositoryMock.Object);
+            _criarBiblioteca = new Bibliotecas.Criar.Handler(_bibliotecaRepositoryMock.Object);
+            _atualizarJBiblioteca = new Bibliotecas.Atualizar.Handler(_bibliotecaRepositoryMock.Object);
+            _excluirBiblioteca = new Bibliotecas.Remover.Handler(_bibliotecaRepositoryMock.Object);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace Fgc.Tests.Application
                 .ReturnsAsync(bibliotecas);
 
             // Act
-            var result = await _obterBibliotecas.Handle(new Biblioteca.Listar.Query(), CancellationToken.None);
+            var result = await _obterBibliotecas.Handle(new Bibliotecas.Listar.Query(), CancellationToken.None);
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -55,7 +55,7 @@ namespace Fgc.Tests.Application
                 .Returns(Task.CompletedTask);
 
             // Act
-            var resultado = await _criarBiblioteca.Handle(new Biblioteca.Criar.Command(contaId, titulo), CancellationToken.None);
+            var resultado = await _criarBiblioteca.Handle(new Bibliotecas.Criar.Command(contaId, titulo), CancellationToken.None);
 
             // Assert
             Assert.True(resultado.IsSuccess);
@@ -78,7 +78,7 @@ namespace Fgc.Tests.Application
                 .Returns(Task.CompletedTask);
 
             // Act
-            var resultado = await _atualizarJBiblioteca.Handle(new Biblioteca.Atualizar.Command(biblioteca.Id.ToString(), novoTitulo), CancellationToken.None);
+            var resultado = await _atualizarJBiblioteca.Handle(new Bibliotecas.Atualizar.Command(biblioteca.Id.ToString(), novoTitulo), CancellationToken.None);
            
             // Assert
             Assert.True(resultado.IsSuccess);
@@ -98,7 +98,7 @@ namespace Fgc.Tests.Application
                 .Returns(Task.CompletedTask);
 
             // Act
-            var resultado = await _excluirBiblioteca.Handle(new Biblioteca.Remover.Command(biblioteca.Id.ToString()), CancellationToken.None);
+            var resultado = await _excluirBiblioteca.Handle(new Bibliotecas.Remover.Command(biblioteca.Id.ToString()), CancellationToken.None);
            
             // Assert
             Assert.True(resultado.IsSuccess);
@@ -115,7 +115,7 @@ namespace Fgc.Tests.Application
             _bibliotecaRepositoryMock.Setup(repo => repo.ObterPorId(biblioteca.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(biblioteca);
             // Act
-            var resultado = await _obterBiblioteca.Handle(new Biblioteca.Buscar.Query(biblioteca.Id.ToString()), CancellationToken.None);
+            var resultado = await _obterBiblioteca.Handle(new Bibliotecas.Buscar.Query(biblioteca.Id.ToString()), CancellationToken.None);
             // Assert
             Assert.True(resultado.IsSuccess);
             Assert.Equal(biblioteca.Titulo, resultado.Value.Titulo);
@@ -129,7 +129,7 @@ namespace Fgc.Tests.Application
             _bibliotecaRepositoryMock.Setup(repo => repo.ObterPorId(bibliotecaId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Fgc.Domain.Biblioteca.Entidades.Biblioteca)null!);
             // Act
-            var resultado = await _obterBiblioteca.Handle(new Biblioteca.Buscar.Query(bibliotecaId.ToString()), CancellationToken.None);
+            var resultado = await _obterBiblioteca.Handle(new Bibliotecas.Buscar.Query(bibliotecaId.ToString()), CancellationToken.None);
             // Assert
             Assert.False(resultado.IsSuccess);
             Assert.Equal("404", resultado.Error.Code);

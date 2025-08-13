@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Buscar
+namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Buscar
 {
     public class Validador : AbstractValidator<Query>
     {

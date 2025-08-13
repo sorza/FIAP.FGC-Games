@@ -1,6 +1,6 @@
 ﻿using Fgc.Application.Compartilhado.CasosDeUso.Abstracoes;
 
-namespace Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Listar
+namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Listar
 {
     public sealed record Query : IQuery<Response>;    
 }

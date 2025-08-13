@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Fgc.Application.Biblioteca.CasosDeUso.Biblioteca.Criar
+namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Criar
 {
     public class Validator : AbstractValidator<Command>
     {

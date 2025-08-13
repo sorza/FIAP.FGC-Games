@@ -1,4 +1,5 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
+using Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Criar;
 using FluentValidation;
 using MediatR;
 
@@ -17,7 +18,7 @@ namespace Fgc.Api.Endpoints.Biblioteca
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
-            Application.Biblioteca.CasosDeUso.Biblioteca.Criar.Command cmd,
+            Command cmd,
             CancellationToken cancellationToken)
             {
             try
