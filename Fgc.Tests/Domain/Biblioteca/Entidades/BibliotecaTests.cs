@@ -57,5 +57,28 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             var exception = Assert.Throws<JogoNuloException>(() => biblioteca.AdicionarJogo(null));
             Assert.Equal(MensagemDeErro.Biblioteca.JogoNulo, exception.Message);
         }
+
+        [Fact]
+        public void AtualizarTitulo_TituloValido_DeveAtualizarTituloDaBiblioteca()
+        {
+            // Arrange
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Titulo Antigo");
+            string novoTitulo = "Novo Titulo";
+            // Act
+            biblioteca.AtualizarTitulo(novoTitulo);
+            // Assert
+            Assert.Equal(novoTitulo, biblioteca.Titulo);
+        }
+
+        [Fact]
+        public void AtualizarTitulo_TituloNuloOuVazio_DeveLancarTituloNuloOuVazioException()
+        {
+            // Arrange
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Titulo Antigo");
+            
+            // Act & Assert
+            var exception = Assert.Throws<TituloNuloOuVazioException>(() => biblioteca.AtualizarTitulo(string.Empty));
+            Assert.Equal(MensagemDeErro.Biblioteca.TituloNuloOuVazio, exception.Message);
+        }
     }
 }
