@@ -54,7 +54,7 @@ namespace Fgc.Tests.Domain.Biblioteca.Entidades
             var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(),"Titulo");
             
             // Act & Assert
-            var exception = Assert.Throws<JogoNuloException>(() => biblioteca.AdicionarJogo(null));
+            var exception = Assert.Throws<JogoNuloException>(() => biblioteca.AdicionarJogo(null!));
             Assert.Equal(MensagemDeErro.Biblioteca.JogoNulo, exception.Message);
         }
 

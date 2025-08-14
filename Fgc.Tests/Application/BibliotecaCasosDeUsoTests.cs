@@ -1,5 +1,7 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
+using Fgc.Domain.Biblioteca.Exceptions.Biblioteca;
 using Moq;
+using System.ComponentModel.DataAnnotations;
 using Bibliotecas = Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas;
 
 namespace Fgc.Tests.Application
@@ -10,8 +12,9 @@ namespace Fgc.Tests.Application
         private readonly Bibliotecas.Listar.Handler _obterBibliotecas;
         private readonly Bibliotecas.Buscar.Handler _obterBiblioteca;
         private readonly Bibliotecas.Criar.Handler _criarBiblioteca;
-        private readonly Bibliotecas.Atualizar.Handler _atualizarJBiblioteca;
+        private readonly Bibliotecas.Atualizar.Handler _atualizarBiblioteca;
         private readonly Bibliotecas.Remover.Handler _excluirBiblioteca;
+        private readonly Bibliotecas.RemoverJogo.Handler _removerJogoBiblioteca;
 
         public BibliotecaCasosDeUsoTests()
         {
@@ -19,8 +22,9 @@ namespace Fgc.Tests.Application
             _obterBibliotecas = new Bibliotecas.Listar.Handler(_bibliotecaRepositoryMock.Object);
             _obterBiblioteca = new Bibliotecas.Buscar.Handler(_bibliotecaRepositoryMock.Object);
             _criarBiblioteca = new Bibliotecas.Criar.Handler(_bibliotecaRepositoryMock.Object);
-            _atualizarJBiblioteca = new Bibliotecas.Atualizar.Handler(_bibliotecaRepositoryMock.Object);
+            _atualizarBiblioteca = new Bibliotecas.Atualizar.Handler(_bibliotecaRepositoryMock.Object);
             _excluirBiblioteca = new Bibliotecas.Remover.Handler(_bibliotecaRepositoryMock.Object);
+            _removerJogoBiblioteca = new Bibliotecas.RemoverJogo.Handler(_bibliotecaRepositoryMock.Object);
         }
 
         [Fact]
@@ -61,6 +65,7 @@ namespace Fgc.Tests.Application
             Assert.True(resultado.IsSuccess);
             Assert.True(resultado.Value.ContaId == contaId);
             Assert.Equal(titulo, resultado.Value.Titulo);
+            _bibliotecaRepositoryMock.Verify(repo => repo.Cadastrar(It.IsAny<Fgc.Domain.Biblioteca.Entidades.Biblioteca>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -78,11 +83,12 @@ namespace Fgc.Tests.Application
                 .Returns(Task.CompletedTask);
 
             // Act
-            var resultado = await _atualizarJBiblioteca.Handle(new Bibliotecas.Atualizar.Command(biblioteca.Id.ToString(), novoTitulo), CancellationToken.None);
-           
+            var resultado = await _atualizarBiblioteca.Handle(new Bibliotecas.Atualizar.Command(biblioteca.Id.ToString(), novoTitulo), CancellationToken.None);
+
             // Assert
             Assert.True(resultado.IsSuccess);
             Assert.Equal(novoTitulo, resultado.Value.Titulo);
+            _bibliotecaRepositoryMock.Verify(repo => repo.Alterar(It.IsAny<Fgc.Domain.Biblioteca.Entidades.Biblioteca>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -99,10 +105,11 @@ namespace Fgc.Tests.Application
 
             // Act
             var resultado = await _excluirBiblioteca.Handle(new Bibliotecas.Remover.Command(biblioteca.Id.ToString()), CancellationToken.None);
-           
+
             // Assert
             Assert.True(resultado.IsSuccess);
             Assert.Equal(biblioteca.Id, resultado.Value.id);
+            _bibliotecaRepositoryMock.Verify(repo => repo.Deletar(biblioteca.Id, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
@@ -128,12 +135,116 @@ namespace Fgc.Tests.Application
             var bibliotecaId = Guid.NewGuid();
             _bibliotecaRepositoryMock.Setup(repo => repo.ObterPorId(bibliotecaId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Fgc.Domain.Biblioteca.Entidades.Biblioteca)null!);
+
             // Act
             var resultado = await _obterBiblioteca.Handle(new Bibliotecas.Buscar.Query(bibliotecaId.ToString()), CancellationToken.None);
+            
             // Assert
             Assert.False(resultado.IsSuccess);
             Assert.Equal("404", resultado.Error.Code);
             Assert.Equal("Biblioteca não encontrada.", resultado.Error.Message);
         }
+
+        [Fact]
+        public async Task AdicionarJogoBiblioteca_DeveAdicionarJogoNaBiblioteca()
+        {
+            // Arrange
+            var generos = new List<Fgc.Domain.Biblioteca.Entidades.Genero>
+            {
+                Fgc.Domain.Biblioteca.Entidades.Genero.Criar(Guid.NewGuid(), "Ação"),
+                Fgc.Domain.Biblioteca.Entidades.Genero.Criar(Guid.NewGuid(), "Aventura")
+            };
+            var jogo = Fgc.Domain.Biblioteca.Entidades.Jogo.Criar("Jogo de Teste", 59.99m, 2023, "Desenvolvedora Teste", generos);
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Biblioteca de Teste");
+
+            // Mockando o repositório de jogos
+            var jogoRepositoryMock = new Mock<IJogoRepository>();
+
+            // Mockando o método de obter jogo por ID
+            jogoRepositoryMock.Setup(repo => repo.ObterPorId(jogo.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(jogo);
+
+            // Criando handler para adicionar jogo na biblioteca
+            var _adicionarJogoBiblioteca = new Bibliotecas.AdicionarJogo.Handler(_bibliotecaRepositoryMock.Object, jogoRepositoryMock.Object);
+
+            // Mockando o repositório de bibliotecas
+            _bibliotecaRepositoryMock.Setup(repo => repo.ObterPorId(biblioteca.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(biblioteca);
+
+            // Mockando o método de salvar a biblioteca
+            _bibliotecaRepositoryMock.Setup(repo => repo.SaveAsync(It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            // Adicionando o jogo na biblioteca
+            var resultado = await _adicionarJogoBiblioteca.Handle(new Bibliotecas.AdicionarJogo.Command(biblioteca.Id.ToString(), jogo.Id.ToString()), CancellationToken.None);
+            
+            // Assert
+            Assert.True(resultado.IsSuccess);
+            Assert.True(biblioteca.Jogos.Count == 1);
+            Assert.Equal(biblioteca.Id, resultado.Value.BibliotecaId);
+            Assert.Equal(jogo.Id, resultado.Value.JogoId);
+            _bibliotecaRepositoryMock.Verify(repo => repo.SaveAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task RemoverJogoBiblioteca_DeveRemoverJogoDaBiblioteca()
+        {
+            // Arrange
+            var generos = new List<Fgc.Domain.Biblioteca.Entidades.Genero>
+            {
+                Fgc.Domain.Biblioteca.Entidades.Genero.Criar(Guid.NewGuid(), "Ação"),
+                Fgc.Domain.Biblioteca.Entidades.Genero.Criar(Guid.NewGuid(), "Aventura")
+            };
+            var jogo = Fgc.Domain.Biblioteca.Entidades.Jogo.Criar("Jogo de Teste", 59.99m, 2023, "Desenvolvedora Teste", generos);
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Biblioteca de Teste");
+            
+            var jogoRepositoryMock = new Mock<IJogoRepository>();
+
+            // Mockando o método de obter jogo por ID
+            jogoRepositoryMock.Setup(repo => repo.ObterPorId(jogo.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(jogo);           
+            
+            _bibliotecaRepositoryMock.Setup(repo => repo.ObterPorId(biblioteca.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(biblioteca);
+
+            _bibliotecaRepositoryMock.Setup(repo => repo.SaveAsync(It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            // Criando handler para adicionar jogo na biblioteca
+            var _adicionarJogoBiblioteca = new Bibliotecas.AdicionarJogo.Handler(_bibliotecaRepositoryMock.Object, jogoRepositoryMock.Object);
+
+            // Adicionando o jogo na biblioteca antes de remover
+            await _adicionarJogoBiblioteca.Handle(new Bibliotecas.AdicionarJogo.Command(biblioteca.Id.ToString(), jogo.Id.ToString()), CancellationToken.None);
+
+            // Act
+            var resultado = await _removerJogoBiblioteca.Handle(new Bibliotecas.RemoverJogo.Command(biblioteca.Id.ToString(), jogo.Id.ToString()), CancellationToken.None);
+            
+            // Assert
+            Assert.True(resultado.IsSuccess);
+            Assert.True(biblioteca.Jogos.Count == 0);
+            _bibliotecaRepositoryMock.Verify(repo => repo.SaveAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
+        }
+
+        [Fact]
+        public async Task RemoverJogoBiblioteca_DeveRetornarErroQuandoJogoNaoExistirNaBiblioteca()
+        {
+            // Arrange
+            var biblioteca = Fgc.Domain.Biblioteca.Entidades.Biblioteca.Criar(Guid.NewGuid(), "Biblioteca de Teste");
+            var jogoId = Guid.NewGuid().ToString(); 
+
+            _bibliotecaRepositoryMock.Setup(repo => repo.ObterPorId(biblioteca.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(biblioteca);
+
+            // Act
+            var resultado = await _removerJogoBiblioteca.Handle(new Bibliotecas.RemoverJogo.Command(biblioteca.Id.ToString(), jogoId), CancellationToken.None);
+            
+            // Assert
+            Assert.False(resultado.IsSuccess);
+            Assert.Equal("404", resultado.Error.Code);
+            Assert.Equal("Jogo não encontrado na biblioteca.", resultado.Error.Message);
+        }
+
     }
 }
+
