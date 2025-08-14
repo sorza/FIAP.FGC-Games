@@ -29,6 +29,9 @@ namespace Fgc.Infrastructure.Compartilhado.Repositorios
             return context.SaveChangesAsync(cancellationToken);
         }
 
+        public virtual Task SaveAsync(CancellationToken cancellationToken = default)
+            => context.SaveChangesAsync(cancellationToken);
+
         public virtual async Task<T?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
             => await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 

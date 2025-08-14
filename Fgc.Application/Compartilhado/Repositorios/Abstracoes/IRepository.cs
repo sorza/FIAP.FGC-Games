@@ -9,5 +9,6 @@ namespace Fgc.Application.Compartilhado.Repositorios.Abstracoes
         Task Cadastrar(T entidade, CancellationToken cancellationToken = default);
         Task Alterar(T entidade, CancellationToken cancellationToken = default);
         Task Deletar(Guid id, CancellationToken cancellationToken = default);
+        Task SaveAsync(CancellationToken cancellationToken = default);
     }
 }

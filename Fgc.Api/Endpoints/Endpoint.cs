@@ -39,7 +39,8 @@ namespace Fgc.Api.Endpoints
                 .MapEndpoint<BuscarBibliotecaEndpoint>()
                 .MapEndpoint<ListarBibliotecasEndpoint>()
                 .MapEndpoint<AtualizarBibliotecaEndpoint>()
-                .MapEndpoint<RemoverBibliotecaEndpoint>();
+                .MapEndpoint<RemoverBibliotecaEndpoint>()
+                .MapEndpoint<AdicionarJogoEndpoint>();
 
 
         }

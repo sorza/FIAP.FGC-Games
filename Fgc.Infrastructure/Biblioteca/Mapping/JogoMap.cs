@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Fgc.Infrastructure.Compartilhado.Data.Mappings
+namespace Fgc.Infrastructure.Biblioteca.Mapping
 {
     public class JogoMap : IEntityTypeConfiguration<Jogo>
     {

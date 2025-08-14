@@ -56,10 +56,16 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
             await base.Cadastrar(jogo, cancellationToken);
         }
 
-        public override async Task<Jogo?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Jogo?> ObterPorIdComGeneros(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Jogos
                 .Include(j => j.Generos)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(j => j.Id == id, cancellationToken);
+        }
+        public override async Task<Jogo?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Jogos               
                 .AsNoTracking()
                 .FirstOrDefaultAsync(j => j.Id == id, cancellationToken);
         }

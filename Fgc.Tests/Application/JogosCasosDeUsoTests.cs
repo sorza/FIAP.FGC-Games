@@ -70,7 +70,7 @@ namespace Fgc.Tests.Application
 
             var jogo = Jogo.Criar("Jogo Teste", 100, DateTime.Now.Year, "Desenvolvedora Teste", new List<Genero> { Genero.Criar("Ação") });
 
-            _jogoRepositoryMock.Setup(repo => repo.ObterPorId(jogo.Id, It.IsAny<CancellationToken>()))
+            _jogoRepositoryMock.Setup(repo => repo.ObterPorIdComGeneros(jogo.Id, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(jogo);
 
             // Act

@@ -8,7 +8,7 @@ namespace Fgc.Api.Endpoints.Biblioteca
     public class CriarBibliotecaEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/biblioteca", HandleAsync)
+        => app.MapPost("/", HandleAsync)
             .WithName("Biblioteca: Criar")
             .WithSummary("Cria uma nova biblioteca")
             .WithDescription("Cria uma nova biblioteca")

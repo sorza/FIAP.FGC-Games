@@ -16,9 +16,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Fgc.Domain\Fgc.Domain.csproj" />
   </ItemGroup>
-	
-  <ItemGroup>
-    <Folder Include="Biblioteca\CasosDeUso\BibliotecaJogos\" />
-  </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Jogos.Buscar
     {
         public async Task<Result<Response>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var jogo = await jogoRepository.ObterPorId(Guid.Parse(request.Id), cancellationToken);
+            var jogo = await jogoRepository.ObterPorIdComGeneros(Guid.Parse(request.Id), cancellationToken);
 
             if (jogo is null)
                 return Result.Failure<Response>(new Error("404", "Jogo não encontrado."));
