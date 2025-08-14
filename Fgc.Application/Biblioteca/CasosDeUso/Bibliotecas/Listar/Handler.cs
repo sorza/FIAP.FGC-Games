@@ -10,7 +10,7 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Listar
         {
             var bibliotecas = await repository.ObterTodos(cancellationToken);
 
-            return Result.Success(new Response(bibliotecas.Select(b => new Buscar.Response(b.Id, b.ContaId, b.Titulo )).ToList()));
+            return Result.Success(new Response(bibliotecas.Select(b => new Criar.Response(b.Id, b.ContaId, b.Titulo)).ToList()));
         }
     }
 }

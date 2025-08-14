@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Buscar
 {
-    public record Response(Guid Id, Guid ContaId, string Titulo) : IQueryResponse;
+    public record Response(Guid Id, Guid ContaId, string Titulo, IList<AdicionarJogo.Response> Jogos) : IQueryResponse;
 }

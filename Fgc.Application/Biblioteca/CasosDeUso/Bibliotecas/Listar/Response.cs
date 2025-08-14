@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Listar
 {
-    public sealed record Response(IList<Buscar.Response> Bibliotecas) : IQueryResponse;  
+    public sealed record Response(IList<Criar.Response> Bibliotecas) : IQueryResponse;  
 }

@@ -13,7 +13,11 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.Buscar
             if(biblioteca is null)
                 return Result.Failure<Response>(new Error("404", "Biblioteca não encontrada."));
 
-            return Result.Success(new Response(biblioteca.Id, biblioteca.ContaId, biblioteca.Titulo));
+            return Result.Success(new Response(
+                biblioteca.Id,
+                biblioteca.ContaId,
+                biblioteca.Titulo,
+                biblioteca.Jogos.Select(jb => new AdicionarJogo.Response(jb.Id, jb.BibliotecaId, jb.JogoId, jb.DataAquisicao, jb.ValorPago)).ToList()));
         }
     }
 }

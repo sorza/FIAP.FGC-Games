@@ -13,13 +13,9 @@ namespace Fgc.Infrastructure.Biblioteca.Repositorios
         }
 
         public override async Task<Domain.Biblioteca.Entidades.Biblioteca?> ObterPorId(Guid id, CancellationToken cancellationToken = default)
-        {
-            var biblioteca = await _context.Bibliotecas
-                               .Include(b => b.Jogos)
-                               .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
-
-            return biblioteca;
-        }
+        => await _context.Bibliotecas
+                    .Include(b => b.Jogos)
+                    .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);        
 
         public async Task<bool> VerificaSeBibliotecaExisteAsync(Guid id, CancellationToken cancellationToken = default)
             => await _context.Bibliotecas.AsNoTracking().AnyAsync(a => a.ContaId == id, cancellationToken);
