@@ -12,6 +12,7 @@ namespace Fgc.Api.Endpoints.Biblioteca
             .WithName("AdicionarJogo")
             .Produces<Response>(StatusCodes.Status201Created)
             .Produces<Response>(StatusCodes.Status400BadRequest)
+            .Produces<Response>(StatusCodes.Status409Conflict)
             .Produces<Response>(StatusCodes.Status404NotFound);
 
         private static async Task<IResult> HandleAsync(
@@ -21,10 +22,14 @@ namespace Fgc.Api.Endpoints.Biblioteca
         {
             try
             {
-
                 var result = await sender.Send(cmd, cancellationToken);
                 return result.IsFailure
-                    ? TypedResults.Conflict(new { result.Error.Code, result.Error.Message })
+                    ? result.Error.Code switch
+                    {
+                        "404" => TypedResults.NotFound(new { result.Error, result.Error.Message }),
+                        "409" => TypedResults.Conflict(new { result.Error, result.Error.Message }),
+                        _ => TypedResults.BadRequest(new { result.Error, result.Error.Message })
+                    }
                     : TypedResults.Created($"/AdicionarJogo/{result.Value.Id}", result.Value);
             }
             catch (ValidationException ex)

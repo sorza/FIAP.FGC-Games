@@ -16,6 +16,9 @@ namespace Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas.AdicionarJogo
             if (jogo is null)            
                 return Result.Failure<Response>(new Error("404","Jogo não encontrado."));           
 
+            if(biblioteca.Jogos.Any(j => j.JogoId == jogo.Id))
+                return Result.Failure<Response>(new Error("409", "Este jogo já está adicionado na biblioteca."));
+
             biblioteca.AdicionarJogo(jogo);
             await bibliotecaRepository.SaveAsync(cancellationToken);
 
