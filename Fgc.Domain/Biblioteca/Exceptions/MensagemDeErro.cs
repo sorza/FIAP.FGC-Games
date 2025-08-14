@@ -29,7 +29,7 @@
         public class BibliotecaErrorMessages
         {
             public string ContaIdVazio { get; } = "O ID da conta não pode ser vazio";
-            public string JogoNulo { get; } = "O jogo não pode ser nulo";
+            public string JogoNulo { get; } = "O jogo não pode ser nulo ou vazio";
             public string JogoNaoEncontrado { get; } = "O jogo não foi encontrado na biblioteca";
             public string JogoJaAdicionado { get; } = "O jogo já está adicionado na biblioteca";
             public string BibliotecaNula { get; } = "A biblioteca não pode ser nula";

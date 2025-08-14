@@ -5,11 +5,13 @@ using MediatR;
 
 namespace Fgc.Api.Endpoints.Biblioteca
 {
-    public class AdicionarJogoEndpoint : IEndpoint
+    public class AdicionarJogoBibliotecaEndpoint : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/adicionarJogo", HandleAsync)
-            .WithName("AdicionarJogo")
+            .WithName("Biblioteca: Adicionar Jogo")
+            .WithSummary("Adiciona um jogo a biblioteca")
+            .WithDescription("Adiciona um jogo a biblioteca")
             .Produces<Response>(StatusCodes.Status201Created)
             .Produces<Response>(StatusCodes.Status400BadRequest)
             .Produces<Response>(StatusCodes.Status409Conflict)

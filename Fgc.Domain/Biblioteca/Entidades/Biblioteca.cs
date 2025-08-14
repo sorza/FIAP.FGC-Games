@@ -57,6 +57,16 @@ namespace Fgc.Domain.Biblioteca.Entidades
             _jogos.Add(BibliotecaJogo.Criar(this, jogo));
         }
 
+        public void RemoverJogo(Guid id)
+        {
+            if (id == Guid.Empty)
+                throw new JogoNuloException(MensagemDeErro.Biblioteca.JogoNulo);
+            var jogo = _jogos.FirstOrDefault(x => x.JogoId == id);
+            if (jogo is null)
+                throw new JogoNuloException(MensagemDeErro.Biblioteca.JogoNaoEncontrado);
+            _jogos.Remove(jogo);
+        }
+
         public void AtualizarTitulo(string titulo)
         {
             if (string.IsNullOrWhiteSpace(titulo))
