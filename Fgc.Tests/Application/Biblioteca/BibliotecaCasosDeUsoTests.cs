@@ -4,7 +4,7 @@ using Moq;
 using System.ComponentModel.DataAnnotations;
 using Bibliotecas = Fgc.Application.Biblioteca.CasosDeUso.Bibliotecas;
 
-namespace Fgc.Tests.Application
+namespace Fgc.Tests.Application.Biblioteca
 {
     public class BibliotecaCasosDeUsoTests
     {
@@ -244,7 +244,6 @@ namespace Fgc.Tests.Application
             Assert.Equal("404", resultado.Error.Code);
             Assert.Equal("Jogo não encontrado na biblioteca.", resultado.Error.Message);
         }
-
     }
 }
 

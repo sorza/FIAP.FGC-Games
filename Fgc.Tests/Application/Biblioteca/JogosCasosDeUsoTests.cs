@@ -4,7 +4,7 @@ using Fgc.Domain.Biblioteca.Entidades;
 using Jogos = Fgc.Application.Biblioteca.CasosDeUso.Jogos;
 using Moq;
 
-namespace Fgc.Tests.Application
+namespace Fgc.Tests.Application.Biblioteca
 {
     public class JogosCasosDeUsoTests
     {
