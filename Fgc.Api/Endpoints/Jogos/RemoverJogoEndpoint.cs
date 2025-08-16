@@ -16,7 +16,8 @@ namespace Fgc.Api.Endpoints.Jogos
             .Produces<Response>(StatusCodes.Status204NoContent)
             .Produces<Response>(StatusCodes.Status404NotFound)
             .Produces<Response>(StatusCodes.Status409Conflict)
-            .Produces<Response>(StatusCodes.Status400BadRequest);
+            .Produces<Response>(StatusCodes.Status400BadRequest)
+            .RequireAuthorization("SomenteAdmin");
 
         private static async Task<IResult> HandleAsync(
             ISender sender,

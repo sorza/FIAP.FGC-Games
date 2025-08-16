@@ -9,6 +9,7 @@ namespace Fgc.Tests.Application.Biblioteca
     public class JogosCasosDeUsoTests
     {
         private readonly Mock<IJogoRepository> _jogoRepositoryMock;
+        private readonly Mock<IBibliotecaJogoRepository> _bibliotecaJogoRepositoryMock;
         private readonly Jogos.Listar.Handler _obterJogosCasoDeUso;
         private readonly Jogos.Buscar.Handler _obterJogoCasoDeUso;
         private readonly Jogos.Criar.Handler _criarJogoCasoDeUso;
@@ -17,12 +18,13 @@ namespace Fgc.Tests.Application.Biblioteca
 
         public JogosCasosDeUsoTests()
         {
-            _jogoRepositoryMock = new Mock<IJogoRepository>();
+            _jogoRepositoryMock = new();
+            _bibliotecaJogoRepositoryMock = new();
             _obterJogosCasoDeUso = new Jogos.Listar.Handler(_jogoRepositoryMock.Object);
             _obterJogoCasoDeUso = new Jogos.Buscar.Handler(_jogoRepositoryMock.Object);
             _criarJogoCasoDeUso = new Jogos.Criar.Handler(_jogoRepositoryMock.Object);
             _atualizarJogoCasoDeUso = new Jogos.Atualizar.Handler(_jogoRepositoryMock.Object);
-            _excluirJogoCasoDeUso = new Jogos.Remover.Handler(_jogoRepositoryMock.Object);
+            _excluirJogoCasoDeUso = new Jogos.Remover.Handler(_jogoRepositoryMock.Object, _bibliotecaJogoRepositoryMock.Object);
         }
 
         [Fact]

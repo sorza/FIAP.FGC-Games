@@ -10,7 +10,6 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Context;
 using Serilog.Events;
-using System.Text;
 
 var arraySink = new JsonArray(
     path: "logs/log.json",
@@ -45,14 +44,20 @@ builder.Services
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
+
+            ValidateAudience = true,
             ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+
+            ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+            Convert.FromBase64String(builder.Configuration["Jwt:Key"]!))
+
         };
+
     });
 
 builder.Services.AddAuthorization(options =>

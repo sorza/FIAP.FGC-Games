@@ -14,7 +14,8 @@ namespace Fgc.Api.Endpoints.Biblioteca
             .WithDescription("Cria uma nova biblioteca")
             .Produces<Domain.Biblioteca.Entidades.Biblioteca>(StatusCodes.Status201Created)
             .Produces<Domain.Biblioteca.Entidades.Biblioteca>(StatusCodes.Status409Conflict)
-            .Produces<Domain.Biblioteca.Entidades.Biblioteca>(StatusCodes.Status400BadRequest);
+            .Produces<Domain.Biblioteca.Entidades.Biblioteca>(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
 
         private static async Task<IResult> HandleAsync(
             ISender sender,

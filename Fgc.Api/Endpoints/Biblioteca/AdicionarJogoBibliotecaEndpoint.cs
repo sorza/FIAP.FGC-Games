@@ -15,7 +15,8 @@ namespace Fgc.Api.Endpoints.Biblioteca
             .Produces<Response>(StatusCodes.Status201Created)
             .Produces<Response>(StatusCodes.Status400BadRequest)
             .Produces<Response>(StatusCodes.Status409Conflict)
-            .Produces<Response>(StatusCodes.Status404NotFound);
+            .Produces<Response>(StatusCodes.Status404NotFound)
+            .RequireAuthorization();
 
         private static async Task<IResult> HandleAsync(
             Command cmd,

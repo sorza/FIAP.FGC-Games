@@ -15,7 +15,8 @@ namespace Fgc.Api.Endpoints.Biblioteca
             .WithDescription("Remove um jogo da biblioteca")
             .Produces(StatusCodes.Status204NoContent)
             .Produces<Response>(StatusCodes.Status404NotFound)
-            .Produces<Response>(StatusCodes.Status400BadRequest);
+            .Produces<Response>(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
 
         private static async Task<IResult> HandleAsync(
            [FromBody]Command cmd,

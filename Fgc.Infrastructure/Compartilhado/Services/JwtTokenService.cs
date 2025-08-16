@@ -18,33 +18,28 @@ namespace Fgc.Infrastructure.Compartilhado.Services
         }
 
         public TokenInfo GerarToken(Conta user)
-        {            
+        {
             var key = _configuration["Jwt:Key"];
             if (string.IsNullOrEmpty(key))
                 throw new InvalidOperationException("A chave JWT não está configurada.");
 
-            var keyBytes = Encoding.UTF8.GetBytes(key);
+            var keyBytes = Convert.FromBase64String(key); // <-- aqui
             var signingKey = new SymmetricSecurityKey(keyBytes);
             var signingCredentials = new SigningCredentials(
                 signingKey,
                 SecurityAlgorithms.HmacSha256);
-           
+
             var claims = new List<Claim>
-            {                
+            {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("UsuarioId", user.Id.ToString()),
                 new Claim("Nome", user.Nome),
                 new Claim(ClaimTypes.Role, user.Perfil.ToString())
-            };                       
+            };
 
-            var expiresMinutesString = _configuration["Jwt:ExpiresMinutes"];
-            if (string.IsNullOrEmpty(expiresMinutesString))
-                throw new InvalidOperationException("O tempo de expiração do JWT não está configurado.");
-
-            var expiresInMinutes = double.Parse(expiresMinutesString);
+            var expiresInMinutes = double.Parse(_configuration["Jwt:ExpiresMinutes"]!);
             var expiresAt = DateTime.UtcNow.AddMinutes(expiresInMinutes);
 
-            
             var jwt = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
@@ -54,10 +49,9 @@ namespace Fgc.Infrastructure.Compartilhado.Services
                 signingCredentials: signingCredentials
             );
 
-            var tokenString = new JwtSecurityTokenHandler()
-                .WriteToken(jwt);
-
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(jwt);
             return new TokenInfo(tokenString, expiresAt);
+
         }
     }
 }
