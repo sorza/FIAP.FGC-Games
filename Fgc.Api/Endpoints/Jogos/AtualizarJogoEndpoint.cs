@@ -14,8 +14,7 @@ namespace Fgc.Api.Endpoints.Jogos
             .WithDescription("Atualiza um jogo")
             .Produces<Response>(StatusCodes.Status200OK)
             .Produces<Response>(StatusCodes.Status409Conflict)
-            .Produces<Response>(StatusCodes.Status400BadRequest)
-            .RequireAuthorization("SomenteAdmin");
+            .Produces<Response>(StatusCodes.Status400BadRequest);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,

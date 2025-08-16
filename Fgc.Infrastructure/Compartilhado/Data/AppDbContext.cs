@@ -9,6 +9,7 @@ namespace Fgc.Infrastructure.Compartilhado.Data
         public DbSet<Jogo> Jogos { get; set; } = null!;
         public DbSet<Genero> Generos { get; set; } = null!;
         public DbSet<Conta> Contas { get; set; } = null!;
+        public DbSet<BibliotecaJogo> BibliotecaJogos { get; set; } = null!;
         public DbSet<Domain.Biblioteca.Entidades.Biblioteca> Bibliotecas { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

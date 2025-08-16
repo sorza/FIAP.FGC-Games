@@ -14,8 +14,7 @@ namespace Fgc.Api.Endpoints.Generos
             .WithDescription("Remove um genero")
             .Produces(StatusCodes.Status204NoContent)
             .Produces<Response>(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization("SomenteAdmin");
+            .Produces(StatusCodes.Status400BadRequest);
         private static async Task<IResult> HandleAsync(
             ISender sender,
             string id,

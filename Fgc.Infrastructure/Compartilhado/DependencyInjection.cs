@@ -17,6 +17,7 @@ namespace Fgc.Infrastructure.Compartilhado
             services.AddScoped<IJogoRepository, JogoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
+            services.AddScoped<IBibliotecaJogoRepository, BibliotecaJogoRepository>();
             services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
             return services;

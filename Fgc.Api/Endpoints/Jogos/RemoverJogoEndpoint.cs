@@ -1,6 +1,7 @@
 ﻿using Fgc.Api.Endpoints.Abstracoes;
 using Fgc.Application.Biblioteca.CasosDeUso.Jogos.Remover;
 using Fgc.Application.Compartilhado.Comportamentos;
+using Fgc.Application.Compartilhado.Results;
 using MediatR;
 
 namespace Fgc.Api.Endpoints.Jogos
@@ -12,10 +13,10 @@ namespace Fgc.Api.Endpoints.Jogos
             .WithName("Jogos: Remover")
             .WithSummary("Remove um jogo")
             .WithDescription("Remove um jogo")
-            .Produces(StatusCodes.Status204NoContent)
+            .Produces<Response>(StatusCodes.Status204NoContent)
             .Produces<Response>(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization("SomenteAdmin");
+            .Produces<Response>(StatusCodes.Status409Conflict)
+            .Produces<Response>(StatusCodes.Status400BadRequest);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
@@ -25,10 +26,18 @@ namespace Fgc.Api.Endpoints.Jogos
             try
             {
                 var result = await sender.Send(new Command(id), cancellationToken);
-                IResult response = result.IsFailure
-                    ? TypedResults.NotFound(new { result.Error.Code, result.Error.Message })
-                    : TypedResults.NoContent();
-                return response;
+
+                if (result.IsFailure)
+                {
+                    return result.Error.Code switch
+                    {
+                        "404" => TypedResults.NotFound(new Error ("404", result.Error.Message)),
+                        "409" => TypedResults.Conflict(new Error("409", result.Error.Message)),
+                        _ => TypedResults.BadRequest(new Error("400", result.Error.Message))
+                    };
+                }
+
+                return TypedResults.NoContent();
             }
             catch (ValidationException ex)
             {

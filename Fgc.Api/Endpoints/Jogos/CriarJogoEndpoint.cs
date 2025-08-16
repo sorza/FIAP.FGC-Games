@@ -14,8 +14,7 @@ namespace Fgc.Api.Endpoints.Jogos
             .WithDescription("Cria um novo jogo")
             .Produces<Response>(StatusCodes.Status201Created)
             .Produces<Response>(StatusCodes.Status409Conflict)
-            .Produces<Response>(StatusCodes.Status400BadRequest)
-            .RequireAuthorization("SomenteAdmin");
+            .Produces<Response>(StatusCodes.Status400BadRequest);
 
         private static async Task<IResult> HandleAsync(
             ISender sender,
