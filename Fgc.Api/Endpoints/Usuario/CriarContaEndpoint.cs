@@ -11,7 +11,7 @@ namespace Fgc.Api.Endpoints.Usuario
         => app.MapPost("/", HandleAsync)
             .WithName("Usuario: Criar Conta")
             .WithSummary("Cria uma nova conta de usuário")
-            .WithDescription("Cria uma nova conta de usuário com nome, email, senha e tipo de perfil")
+            .WithDescription("Cria uma nova conta de usuário com nome, email e senha")
             .Produces<Response>(StatusCodes.Status201Created)
             .Produces<Response>(StatusCodes.Status409Conflict)
             .Produces<Response>(StatusCodes.Status400BadRequest);
