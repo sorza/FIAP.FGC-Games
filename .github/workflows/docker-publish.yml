@@ -29,4 +29,4 @@ jobs:
 
       # 4. Push para o Docker Hub
       - name: Push Docker image
-        run: docker push fiap.fgc-games:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/fiap.fgc-games:latest
