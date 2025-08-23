@@ -40,10 +40,15 @@ namespace Fgc.Application.Compartilhado.Comportamentos
         }
 
     }
-    public class LogEntry
+    public sealed class LogEntry
     {
-        public required string Tipo { get; set; }
-        public DateTime Timestamp { get; set; }
-        public required object Dados { get; set; }
+        public DateTime Timestamp { get; init; } = DateTime.UtcNow;
+        public string CorrelationId { get; init; } = Guid.NewGuid().ToString();
+        public string UserId { get; init; } = string.Empty;
+        public string HttpMethod { get; init; } = string.Empty;
+        public string Endpoint { get; init; } = string.Empty;
+        public object Dados { get; init; } = string.Empty;
+        public string Resultado { get; init; } = string.Empty;
+        public string Mensagem { get; init; } = string.Empty;
     }
 }

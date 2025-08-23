@@ -2,5 +2,5 @@
 
 namespace Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar
 {
-    public sealed record Command(string email, string senha) : ICommand<Response>;
+    public sealed record Command(string email, string senha) : ICommand<Response>;  
 }

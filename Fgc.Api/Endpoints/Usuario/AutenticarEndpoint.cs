@@ -2,6 +2,7 @@
 using Fgc.Application.Compartilhado.Comportamentos;
 using Fgc.Application.Compartilhado.Services;
 using Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar;
+using Fgc.Domain.Usuario.ObjetosDeValor;
 using MediatR;
 
 namespace Fgc.Api.Endpoints.Usuario
