@@ -23,7 +23,7 @@ namespace Fgc.Infrastructure.Compartilhado.Services
             if (string.IsNullOrEmpty(key))
                 throw new InvalidOperationException("A chave JWT não está configurada.");
 
-            var keyBytes = Convert.FromBase64String(key); // <-- aqui
+            var keyBytes = Convert.FromBase64String(key); 
             var signingKey = new SymmetricSecurityKey(keyBytes);
             var signingCredentials = new SigningCredentials(
                 signingKey,

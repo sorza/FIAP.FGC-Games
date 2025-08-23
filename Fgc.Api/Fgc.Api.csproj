@@ -23,8 +23,4 @@
     <ProjectReference Include="..\Fgc.Infrastructure\Fgc.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="logs\" />
-  </ItemGroup>
-
 </Project>

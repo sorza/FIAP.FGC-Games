@@ -16,8 +16,7 @@ namespace Fgc.Application.Compartilhado
                 x.AddOpenBehavior(typeof(ValidationBehavior<,>));
                 x.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
-
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+           
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             return services;

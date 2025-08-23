@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Fgc.Application.Compartilhado.Results
 {
@@ -32,6 +33,7 @@ namespace Fgc.Application.Compartilhado.Results
         public static Result<T> Create<T>(T? value) =>
             value is not null ? Success(value) : Failure<T>(Error.NullValue);
     }
+    
 
     public class Result<T> : Result
     {
@@ -41,6 +43,8 @@ namespace Fgc.Application.Compartilhado.Results
             => _value = value;
 
         [NotNull]
+        [JsonIgnore]
+
         public T Value => _value! ?? throw new InvalidOperationException("O resultado não tem valor");
 
         public static implicit operator Result<T>(T? value) => Create(value);

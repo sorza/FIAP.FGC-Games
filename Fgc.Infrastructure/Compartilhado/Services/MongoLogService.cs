@@ -18,11 +18,6 @@ namespace Fgc.Infrastructure.Compartilhado.Services
 
         public async Task LogAsync(LogEntry logEntry)
         {
-            if (logEntry.Dados is Command cmd)
-            {
-                var safeCmd = cmd with { senha = "*****" };
-            }
-
             await _collection.InsertOneAsync(logEntry);
         }
 

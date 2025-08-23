@@ -1,3 +1,4 @@
+using Fgc.Api.CustomMiddlewares;
 using Fgc.Api.Endpoints;
 using Fgc.Application.Compartilhado;
 using Fgc.Application.Compartilhado.Services;
@@ -66,6 +67,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("Admin"));
 });
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 
@@ -91,7 +94,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
-        Description = "Digite: Bearer {seu_token}"
+        Description = "Digite seu token"
     });
         
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -111,6 +114,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<CorrelationIdMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
