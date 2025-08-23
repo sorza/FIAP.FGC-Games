@@ -2,7 +2,7 @@
 using Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar;
 using Fgc.Domain.Usuario.Entidades;
 using Fgc.Domain.Usuario.ObjetosDeValor;
-using Fgc.Infrastructure.Compartilhado.Data;
+using Fgc.Infrastructure.Compartilhado.Data.Contexts;
 using Fgc.Infrastructure.Compartilhado.Repositorios;
 using Microsoft.EntityFrameworkCore;
 

@@ -2,9 +2,11 @@
 using Fgc.Application.Compartilhado.Services;
 using Fgc.Infrastructure.Biblioteca.Repositorios;
 using Fgc.Infrastructure.Compartilhado.Data;
+using Fgc.Infrastructure.Compartilhado.Data.Contexts;
 using Fgc.Infrastructure.Compartilhado.Services;
 using Fgc.Infrastructure.Usuario.Repositorios;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace Fgc.Infrastructure.Compartilhado
 {
@@ -12,6 +14,7 @@ namespace Fgc.Infrastructure.Compartilhado
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            services.AddSingleton<MongoLogContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGeneroRepository, GeneroRepository>();
             services.AddScoped<IJogoRepository, JogoRepository>();
@@ -19,6 +22,7 @@ namespace Fgc.Infrastructure.Compartilhado
             services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
             services.AddScoped<IBibliotecaJogoRepository, BibliotecaJogoRepository>();
             services.AddSingleton<IJwtTokenService, JwtTokenService>();
+            services.AddSingleton<ILogService, MongoLogService>();
 
             return services;
         }

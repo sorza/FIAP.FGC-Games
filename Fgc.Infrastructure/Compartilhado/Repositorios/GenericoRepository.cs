@@ -1,6 +1,6 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
 using Fgc.Domain.Compartilhado.Entidades;
-using Fgc.Infrastructure.Compartilhado.Data;
+using Fgc.Infrastructure.Compartilhado.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fgc.Infrastructure.Compartilhado.Repositorios

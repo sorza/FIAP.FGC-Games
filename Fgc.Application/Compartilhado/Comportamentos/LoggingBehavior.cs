@@ -1,56 +1,49 @@
-﻿using MediatR;
-using Microsoft.Extensions.Logging;
-using Serilog.Context;
-using System.Diagnostics;
+﻿using Fgc.Application.Compartilhado.Services;
+using MediatR;
+using Newtonsoft.Json;
 
 namespace Fgc.Application.Compartilhado.Comportamentos
 {
     public class LoggingBehavior<TRequest, TResponse>
-       : IPipelineBehavior<TRequest, TResponse> 
+       : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
-
     {
-        private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
-        public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger) => _logger = logger;
+        private readonly ILogService _logService;
 
+        public LoggingBehavior(ILogService logService)
+        {
+            _logService = logService;
+        }
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            using (LogContext.PushProperty("RequestName", typeof(TRequest).Name))
+            var inicio = DateTime.UtcNow;
+
+            // Log de entrada
+            await _logService.LogAsync(new LogEntry
             {
-                var timer = Stopwatch.StartNew();
+                Tipo = "Entrada",
+                Timestamp = inicio,
+                Dados = JsonConvert.SerializeObject(request)
+            });
 
-                // 2) Log de início
-                _logger.LogInformation(
-                  "Processando a requisicao {RequestName} {@Request}",
-                  typeof(TRequest).FullName,
-                  request);
+            var response = await next();
 
-                try
-                {
-                    var response = await next();
-                    timer.Stop();
-                  
-                    _logger.LogInformation(
-                      "A requisicao {RequestName} foi processada em {ElapsedMilliseconds}ms",
-                      typeof(TRequest).Name,
-                      timer.ElapsedMilliseconds);
+            // Log de saída
+            await _logService.LogAsync(new LogEntry
+            {
+                Tipo = "Saída",
+                Timestamp = DateTime.UtcNow,
+                Dados = JsonConvert.SerializeObject(response)
+            });
 
-                    return response;
-                }
-                catch (Exception ex)
-                {
-                    timer.Stop();
-                   
-                    _logger.LogError(
-                      ex,
-                      "A requisicao {RequestName} falhou depois de {ElapsedMilliseconds}ms",
-                      typeof(TRequest).Name,
-                      timer.ElapsedMilliseconds);
-
-                    throw;
-                }
-            }
-
+            return response;
         }
+
+    }
+    public class LogEntry
+    {
+        public required string Tipo { get; set; }
+        public DateTime Timestamp { get; set; }
+        public required object Dados { get; set; }
     }
 }

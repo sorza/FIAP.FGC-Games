@@ -42,7 +42,6 @@ namespace Fgc.Api.Endpoints
                 .MapEndpoint<RemoverBibliotecaEndpoint>()
                 .MapEndpoint<AdicionarJogoBibliotecaEndpoint>()
                 .MapEndpoint<RemoverJogoBibliotecaEndpoint>();
-
         }
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
             where TEndpoint : IEndpoint

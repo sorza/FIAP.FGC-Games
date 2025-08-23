@@ -2,7 +2,7 @@
 using Fgc.Domain.Usuario.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fgc.Infrastructure.Compartilhado.Data
+namespace Fgc.Infrastructure.Compartilhado.Data.Contexts
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {

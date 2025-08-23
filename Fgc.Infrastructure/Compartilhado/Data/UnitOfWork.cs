@@ -1,4 +1,5 @@
 ﻿using Fgc.Application.Compartilhado.Repositorios.Abstracoes;
+using Fgc.Infrastructure.Compartilhado.Data.Contexts;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Fgc.Infrastructure.Compartilhado.Data
