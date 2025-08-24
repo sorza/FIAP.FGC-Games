@@ -6,6 +6,7 @@ using Fgc.Infrastructure.Compartilhado.Data.Contexts;
 using Fgc.Infrastructure.Compartilhado.Services;
 using Fgc.Infrastructure.Usuario.Repositorios;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Fgc.Infrastructure.Compartilhado
@@ -22,6 +23,22 @@ namespace Fgc.Infrastructure.Compartilhado
             services.AddScoped<IBibliotecaRepository, BibliotecaRepository>();
             services.AddScoped<IBibliotecaJogoRepository, BibliotecaJogoRepository>();
             services.AddSingleton<IJwtTokenService, JwtTokenService>();
+            services.AddSingleton<ILogService, MongoLogService>();
+
+            // Registra IMongoClient e IMongoDatabase usando as configs
+            services.AddSingleton<IMongoClient>(sp =>
+            {
+                var settings = sp.GetRequiredService<IOptions<MongoSettings>>().Value;
+                return new MongoClient(settings.ConnectionString);
+            });
+
+            services.AddSingleton<IMongoDatabase>(sp =>
+            {
+                var settings = sp.GetRequiredService<IOptions<MongoSettings>>().Value;
+                var client = sp.GetRequiredService<IMongoClient>();
+                return client.GetDatabase(settings.DatabaseName);
+            });
+
             services.AddSingleton<ILogService, MongoLogService>();
 
             return services;

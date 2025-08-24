@@ -1,6 +1,5 @@
 ﻿using Fgc.Application.Compartilhado.Comportamentos;
 using Fgc.Application.Compartilhado.Services;
-using Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar;
 using Fgc.Infrastructure.Compartilhado.Data;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

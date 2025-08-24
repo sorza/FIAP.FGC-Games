@@ -1,4 +1,4 @@
-﻿using Fgc.Api.Endpoints.Abstracoes;
+﻿using Fgc.Api.Common.Api;
 using Fgc.Application.Biblioteca.CasosDeUso.Jogos.Atualizar;
 using Fgc.Application.Compartilhado.Comportamentos;
 using MediatR;

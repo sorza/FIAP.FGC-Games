@@ -1,4 +1,4 @@
-﻿using Fgc.Api.Endpoints.Abstracoes;
+﻿using Fgc.Api.Common.Api;
 using Fgc.Application.Compartilhado.Comportamentos;
 using Fgc.Application.Compartilhado.Services;
 using Fgc.Application.Usuario.CasosDeUso.Conta.Autenticar;

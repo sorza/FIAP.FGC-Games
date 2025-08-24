@@ -1,4 +1,4 @@
-﻿namespace Fgc.Api.Endpoints.Abstracoes
+﻿namespace Fgc.Api.Common.Api
 {
     public interface IEndpoint
     {

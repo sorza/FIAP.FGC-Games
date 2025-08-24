@@ -1,4 +1,4 @@
-﻿using Fgc.Api.Endpoints.Abstracoes;
+﻿using Fgc.Api.Common.Api;
 using Fgc.Api.Endpoints.Biblioteca;
 using Fgc.Api.Endpoints.Generos;
 using Fgc.Api.Endpoints.Jogos;
