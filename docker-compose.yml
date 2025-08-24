@@ -48,6 +48,9 @@ services:
       SQLSERVER_DB: FIAP.FGC
     ports:
       - "8080:8080"
+    volumes:
+    - ./logs:/app/logs
+
     networks:
       - appnet
 
