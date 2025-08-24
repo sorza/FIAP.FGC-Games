@@ -1,4 +1,4 @@
-﻿using Fgc.Api.CustomMiddlewares;
+﻿using Fgc.Api.Common.CustomMiddlewares;
 
 namespace Fgc.Api.Common.Api
 {
