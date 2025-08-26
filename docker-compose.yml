@@ -1,59 +1,45 @@
+version: '3.9'
+
 services:
-
-  mongodb:
-      image: mongo:6.0
-      container_name: mongodb
-      restart: always
-      ports:
-        - "27017:27017"
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: toor
-      volumes:
-        - ./dados-mongo:/data/db
-      networks:
-        - appnet
-
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: FGC-Games-DB
     environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "1q2w3e4r@#$"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1q2w3e4r@#$
     ports:
       - "1433:1433"
     volumes:
-      - ./dados-sql:/var/opt/mssql
-    networks:
-      - appnet
+      - sql_data:/var/opt/mssql
 
-  fgc-games:
-    image: alexandresorza/fiap.fgc-games:latest
-    container_name: fgc-games
-    depends_on:
-      - mongodb
-      - sqlserver
-    environment:
-      # Mongo
-      MONGO_SERVER: mongodb
-      MONGO_PORT: 27017
-      MONGO_USER: root
-      MONGO_PASSWORD: toor
-      MONGO_DB: FIAP_FGC
-      # SQL Server
-      SQLSERVER_HOST: sqlserver
-      SQLSERVER_PORT: 1433
-      SQLSERVER_USER: sa
-      SQLSERVER_PASSWORD: "1q2w3e4r@#$"
-      SQLSERVER_DB: FIAP.FGC
+  mongo:
+    image: mongo:6
+    container_name: FGC-Games-Logs
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet localhost:27017/test
+      interval: 10s
+      retries: 5
+      start_period: 5s
+
+  minha_app:
+    image: alexandresorza/fiap.fgc-games
+    container_name: FGC-Games-API
     ports:
       - "8080:8080"
-    volumes:
-    - ./logs:/app/logs
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/Logs
+      - SQLSERVER_HOST=sqlserver
+      - SQLSERVER_USER=sa
+      - SQLSERVER_PASSWORD=1q2w3e4r@#$
+      - SQLSERVER_DB=FIAP.FGC
+    depends_on:
+      - sqlserver
+      - mongo
 
-    networks:
-      - appnet
-
-networks:
-  appnet:
-    driver: bridge
+volumes:
+  sql_data:
+  mongo_data:

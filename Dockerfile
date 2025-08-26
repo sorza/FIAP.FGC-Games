@@ -1,26 +1,25 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Etapa 1: Build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# Copia o arquivo de solução
-COPY FIAP.FGC-Games.sln ./
-
-# Copia cada csproj no caminho correto
-COPY Fgc.Api/Fgc.Api.csproj Fgc.Api/
-COPY Fgc.Application/Fgc.Application.csproj Fgc.Application/
-COPY Fgc.Domain/Fgc.Domain.csproj Fgc.Domain/
-COPY Fgc.Infrastructure/Fgc.Infrastructure.csproj Fgc.Infrastructure/
-COPY Fgc.Tests/Fgc.Tests.csproj Fgc.Tests/
-
-# Restaura as dependências
-RUN dotnet restore FIAP.FGC-Games.sln
-
-# Copia o restante do código
+# Copia os arquivos da solução
 COPY . .
 
-# Publica o projeto principal
-RUN dotnet publish Fgc.Api/Fgc.Api.csproj -c Release -o /app/publish
+# Restaura os pacotes NuGet
+RUN dotnet restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# Publica a aplicação em modo Release
+RUN dotnet publish -c Release -o /app/publish
+
+# Etapa 2: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
+
+# Copia os arquivos publicados da etapa de build
 COPY --from=build /app/publish .
+
+# Expõe a porta usada pela API
+EXPOSE 5000
+
+# Define o ponto de entrada
 ENTRYPOINT ["dotnet", "Fgc.Api.dll"]

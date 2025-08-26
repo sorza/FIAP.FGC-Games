@@ -10,12 +10,12 @@ builder.AddServices();
 
 var app = builder.Build();
 
-//if (app.Environment.IsDevelopment())
 app.ConfigureDevEnvironment();
 
 app.UseSecurity();
 app.MapEndpoints();
 
-app.Run();
+app.Run("http://0.0.0.0:5000");
+
 
 
