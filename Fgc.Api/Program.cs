@@ -1,5 +1,7 @@
 using Fgc.Api.Common.Api;
 using Fgc.Api.Endpoints;
+using Fgc.Infrastructure.Compartilhado.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,3 @@ app.UseSecurity();
 app.MapEndpoints();
 
 app.Run("http://0.0.0.0:5000");
-
-
-
